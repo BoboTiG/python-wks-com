@@ -1,0 +1,124 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "inverter-com"
+description = "Communicate with your inverter (WKS EKO Circle)."
+readme = "README.md"
+requires-python = ">= 3.8"
+authors = [
+  { name = "Mickaël 'Tiger-222' Schoentgen", email="contact@tiger-222.fr" },
+]
+maintainers = [
+  { name = "Mickaël 'Tiger-222' Schoentgen", email="contact@tiger-222.fr" },
+]
+license = { file = "LICENSE.txt" }
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: Unix",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries",
+]
+keywords = [
+    "inverter",
+    "rs232",
+    "serial",
+    "wks",
+    "eko",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/BoboTiG/python-inverter-com"
+Changelog = "https://github.com/BoboTiG/python-inverter-com/blob/main/CHANGELOG.md"
+Source = "https://github.com/BoboTiG/python-inverter-com"
+Sponsor = "https://github.com/sponsors/BoboTiG"
+Tracker = "https://github.com/BoboTiG/python-inverter-com/issues"
+"Released Versions" = "https://github.com/BoboTiG/python-inverter-com/releases"
+
+[project.scripts]
+inverter-com = "inverter_com.__main__:main"
+
+[project.optional-dependencies]
+dev = [
+  "black",
+  "build",
+  "flake8-pyproject",
+  "mypy",
+  "isort",
+  "pytest",
+  "pytest-cov",
+]
+
+[tool.hatch.version]
+path = "src/inverter_com/__init__.py"
+
+[tool.hatch.build]
+skip-excluded-dirs = true
+
+[tool.hatch.build.targets.sdist]
+only-include = [
+  "CHANGELOG.md",
+  "src",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = [
+  "src/inverter_com",
+]
+
+[tool.black]
+target-version = ["py38"]
+line-length = 120
+safe = true
+
+[tool.flake8]
+max-line-length = 120
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+# Ensure we know what we do
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_unused_configs = true
+
+# Imports management
+ignore_missing_imports = true
+follow_imports = "skip"
+
+# Ensure full coverage
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_calls = true
+
+# Restrict dynamic typing (a little)
+# e.g. `x: List[Any]` or x: List`
+disallow_any_generics = true
+
+strict_equality = true
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+addopts = """
+    --cov-report=term-missing:skip-covered
+    --cov=src/inverter_com
+    --strict-markers
+    -r fE
+    -vvv
+"""
