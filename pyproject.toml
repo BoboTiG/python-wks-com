@@ -38,6 +38,10 @@ keywords = [
     "wks",
     "eko",
 ]
+dependencies = [
+  "pydantic>=2.5.2,<3",
+  "pyserial>=3.5,<4",
+]
 dynamic = ["version"]
 
 [project.urls]
