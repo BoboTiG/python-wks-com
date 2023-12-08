@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "inverter-com"
 description = "Communicate with your inverter (WKS EKO Circle)."
 readme = "README.md"
-requires-python = ">= 3.8"
+requires-python = ">= 3.10"
 authors = [
   { name = "Mickaël 'Tiger-222' Schoentgen", email="contact@tiger-222.fr" },
 ]
@@ -26,8 +26,6 @@ classifiers = [
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -82,7 +80,7 @@ packages = [
 ]
 
 [tool.black]
-target-version = ["py38"]
+target-version = ["py310"]
 line-length = 120
 safe = true
 
