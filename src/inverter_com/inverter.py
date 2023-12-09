@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 
 import serial
 
+from inverter_com.constants import CMD_SERIAL_NO
 from inverter_com.helpers import compute_crc, extract_response
 from inverter_com.unpackers import unpack
 
@@ -20,6 +21,7 @@ class Inverter:
     bytesize: int = serial.EIGHTBITS
     parity: str = serial.PARITY_NONE
     reads: int = field(default=0, init=False)
+    serial_no: str = field(init=False)
     stopbits: int = serial.STOPBITS_ONE
     writes: int = field(default=0, init=False)
 
@@ -33,8 +35,13 @@ class Inverter:
             port=self.port,
             stopbits=self.stopbits,
         )
+
+        # Wait for the connection to be established
         while not self._conn.is_open:
             pass
+
+        # Fetch the device serial number
+        self.serial_no = str(self.send(CMD_SERIAL_NO))
 
     def read(self) -> bytes:
         res = self._conn.read_until(expected=b"\r")

@@ -24,6 +24,9 @@ As an example, here is how to retrieve the inverter serial number:
 
 ```console
 $ inverter-com /dev/ttyUSB0 QID
+
+# The same command with an alias:
+$ inverter-com /dev/ttyUSB0 serial-no
 ```
 
 The output will be something like that:
@@ -46,6 +49,7 @@ There are also aliases you could use:
 - `metrics` for the `QPGS0` command;
 - `metrics-n` (where `n` is a number between 1 and 9) for the `QPGSn` command;
 - `ratings` for the `QPIRI` command;
+- `serial-no` for the `QID` command;
 - `settings` for the `QDI` command;
 
 When the inverter does not understand a command, it will return the `NAK` keyword.
