@@ -11,9 +11,6 @@ def compute_crc(value: str) -> str:
     """
     crc = 0
     for ch in value:
-        if not ch:
-            assert 0, repr(value)
-            break
         crc ^= ord(ch) << 8
         for _ in range(8):
             crc = crc << 1 if (crc & 0x8000) == 0 else (crc << 1) ^ 0x1021
@@ -38,7 +35,7 @@ def test_command(port: str, command: str, debug: bool = False) -> None:
 
     from inverter_com import Inverter, constants
 
-    if debug:
+    if debug:  # pragma: nocover
         import logging
 
         logging.basicConfig(level=logging.DEBUG)

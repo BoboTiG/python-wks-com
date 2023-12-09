@@ -36,10 +36,6 @@ class Inverter:
             stopbits=self.stopbits,
         )
 
-        # Wait for the connection to be established
-        while not self._conn.is_open:
-            pass
-
         # Fetch the device serial number
         self.serial_no = str(self.send(CMD_SERIAL_NO))
 
