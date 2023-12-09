@@ -16,7 +16,7 @@ You can use it to send commands to inverters, and see what data you can get from
 The usage is as follow:
 
 ```bash
-$ inverter-com SERIAL_PORT COMMAND_OR_ALIAS [COMMAND_OR_ALIAS...] [--port PORT] [--debug]
+$ inverter-com COMMAND_OR_ALIAS [COMMAND_OR_ALIAS...] [--port SERIAL_PORT] [--debug]
 ```
 
 As an example, here is how to retrieve the inverter serial number:
