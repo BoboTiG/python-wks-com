@@ -16,26 +16,40 @@ You can use it to send commands to inverters, and see what data you can get from
 The usage is as follow:
 
 ```bash
-$ inverter-com SERIAL_PORT COMMAND
-$ inverter-com SERIAL_PORT ALIAS
+$ inverter-com SERIAL_PORT COMMAND_OR_ALIAS [COMMAND_OR_ALIAS...] [--port PORT] [--debug]
 ```
 
 As an example, here is how to retrieve the inverter serial number:
 
 ```bash
-$ inverter-com /dev/ttyUSB0 QID
+$ inverter-com QID
 
 # The same command with an alias:
-$ inverter-com /dev/ttyUSB0 serial-no
+$ inverter-com serial-no
 ```
 
 The output will be something like that:
 
 ```log
+$ inverter-com serial-no
+"96332309100452"
+```
+
+When enabling debug logs, it will likely show:
+
+```log
+$ inverter-com serial-no --debug
 DEBUG:inverter_com.inverter:/dev/ttyUSB0 > SEND 'QIDÖê\r'
 DEBUG:inverter_com.inverter:/dev/ttyUSB0 > WRITTEN 6 chars (OK)
 DEBUG:inverter_com.inverter:/dev/ttyUSB0 < RAW b'(96332309100452?\xf3\r'
 DEBUG:inverter_com.inverter:/dev/ttyUSB0 < DECODED '96332309100452'
+"96332309100452"
+```
+
+The default port is `/dev/ttyUSB0`, you can change that:
+
+```log
+$ inverter-com serial-no --port /dev/ttyAMA0
 "96332309100452"
 ```
 

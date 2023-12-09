@@ -30,7 +30,7 @@ def extract_response(seq: bytes) -> str:
     return seq.decode(encoding="latin1")
 
 
-def test_command(port: str, command: str, debug: bool = False) -> None:
+def test_commands(port: str, *commands: str, debug: bool = False) -> None:
     import json
 
     from inverter_com import Inverter, constants
@@ -40,8 +40,9 @@ def test_command(port: str, command: str, debug: bool = False) -> None:
 
         logging.basicConfig(level=logging.DEBUG)
 
-    command = getattr(constants, f"CMD_{command.upper().replace('-', '_')}", command)
-
     inverter = Inverter(port)
-    res = inverter.send(command)
-    print(json.dumps(res, indent=4, sort_keys=True))
+    for command in commands:
+        command = getattr(constants, f"CMD_{command.upper().replace('-', '_')}", command)
+        res = inverter.send(command)
+        print(json.dumps(res, indent=4, sort_keys=True))
+        print()
