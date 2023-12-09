@@ -33,13 +33,15 @@ def extract_response(seq: bytes) -> str:
     return seq.decode(encoding="latin1")
 
 
-def test_command(port: str, command: str) -> None:
+def test_command(port: str, command: str, debug: bool = False) -> None:
     import json
-    import logging
 
     from inverter_com import Inverter, constants
 
-    logging.basicConfig(level=logging.DEBUG)
+    if debug:
+        import logging
+
+        logging.basicConfig(level=logging.DEBUG)
 
     command = getattr(constants, f"CMD_{command.upper().replace('-', '_')}", command)
 
