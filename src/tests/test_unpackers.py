@@ -8,10 +8,9 @@ from inverter_com.unpackers import unpack
 
 def test_unpack_flags() -> None:
     seq = "EabkuvxyzDjln"
+    res = unpack(constants.CMD_FLAGS, seq)
 
-    metrics = unpack(constants.CMD_FLAGS, seq)
-
-    assert metrics == {
+    assert res == {
         "alarm_on_primary_source_interrupt": True,
         "data_log_popup": False,
         "fault_code_recording": True,
@@ -31,10 +30,9 @@ def test_unpack_metrics() -> None:
         "0 96332309100452 L 00 227.7 50.01 227.7 50.01 1252 1245 022 00.8 "
         "000 000 330.7 000 01252 01245 022 11102010 0 1 060 120 030 00 000"
     )
+    res = unpack(constants.CMD_METRICS, seq)
 
-    metrics = unpack(constants.CMD_METRICS, seq)
-
-    assert metrics == {
+    assert res == {
         "ac_output_active_power": 1245,
         "ac_output_apparent_power": 1252,
         "ac_output_freq": 50.01,
@@ -75,10 +73,9 @@ def test_unpack_metrics() -> None:
 
 def test_unpack_ratings() -> None:
     seq = "230.0 24.3 230.0 50.0 24.3 5600 5600 48.0 46.0 42.0 56.4 54.0 3 030 060 0 2 1 9 00 0 0 54.0 0 1 000"
+    res = unpack(constants.CMD_RATINGS, seq)
 
-    metrics = unpack(constants.CMD_RATINGS, seq)
-
-    assert metrics == {
+    assert res == {
         "ac_output_rating_active_power": 5600,
         "ac_output_rating_apparent_power": 5600,
         "ac_output_rating_current": 24.3,
@@ -109,10 +106,9 @@ def test_unpack_ratings() -> None:
 
 def test_unpack_settings() -> None:
     seq = "230.0 50.0 0030 42.0 54.0 56.4 46.0 60 0 0 2 0 0 0 0 0 1 1 0 0 1 0 54.0 0 1 000"
+    res = unpack(constants.CMD_SETTINGS, seq)
 
-    metrics = unpack(constants.CMD_SETTINGS, seq)
-
-    assert metrics == {
+    assert res == {
         "ac_input_voltage_range": 0,
         "ac_output_freq": 50.0,
         "ac_output_voltage": 230.0,
