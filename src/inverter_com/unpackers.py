@@ -57,7 +57,7 @@ class Flags(BaseModel):
 
 
 class Metrics(BaseModel):
-    parallel_num_exists: bool
+    parallel_num: int
     serial_no: str
     work_mode: str
     fault_code: int

@@ -52,7 +52,7 @@ def test_unpack_metrics() -> None:
         "max_charger_current": 60,
         "max_charger_range": 120,
         "output_mode": "single",
-        "parallel_num_exists": False,
+        "parallel_num": 0,
         "pv_input_current_for_battery": 0,
         "pv_input_voltage": 330.7,
         "serial_no": "96332309100452",
