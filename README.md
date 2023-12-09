@@ -4,7 +4,7 @@ Python module to communicate with WKS EKO Circle inverters.
 
 ## Installation
 
-```console
+```bash
 $ python -m pip install inverter-com
 ```
 
@@ -15,14 +15,14 @@ You can use it to send commands to inverters, and see what data you can get from
 
 The usage is as follow:
 
-```console
+```bash
 $ inverter-com SERIAL_PORT COMMAND
 $ inverter-com SERIAL_PORT ALIAS
 ```
 
 As an example, here is how to retrieve the inverter serial number:
 
-```console
+```bash
 $ inverter-com /dev/ttyUSB0 QID
 
 # The same command with an alias:
@@ -58,26 +58,26 @@ When the inverter does not understand a command, it will return the `NAK` keywor
 
 Setup a virtual environment:
 
-```console
+```bash
 $ python -m venv venv
 $ . venv/bin/activate
 ```
 
 Install, or update, dependencies:
 
-```console
+```bash
 $ python -m pip install -U pip
 $ python -m pip install -e '.[dev]'
 ```
 
 Run tests:
 
-```console
+```bash
 $ python -Wd -m pytest --doctest-modules src
 ```
 
 Run linters, and quality checkers:
 
-```console
+```bash
 $ ./checks.sh
 ```
