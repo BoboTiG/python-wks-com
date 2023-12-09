@@ -4,7 +4,7 @@ Source: https://github.com/BoboTiG/python-inverter-com
 """
 from pydantic import BaseModel, Field, computed_field, field_validator
 
-from inverter_com import constants
+from inverter_com import constants, validators
 
 
 class Flags(BaseModel):
@@ -119,51 +119,15 @@ class Metrics(BaseModel):
 
     @field_validator("charger_source_priority")
     def validate_charger_source_priority(cls, value: str) -> str:
-        """
-        >>> Metrics.validate_charger_source_priority("0")
-        'utility-first'
-        >>> Metrics.validate_charger_source_priority("1")
-        'solar-first'
-        >>> Metrics.validate_charger_source_priority("2")
-        'solar-and-utility'
-        >>> Metrics.validate_charger_source_priority("3")
-        'solar-only'
-        """
-        return constants.CHARGER_SOURCE_PRIORITIES[int(value)]
+        return validators.charger_source_priority(value)
 
     @field_validator("output_mode")
     def validate_output_mode(cls, value: str) -> str:
-        """
-        >>> Metrics.validate_output_mode("0")
-        'single'
-        >>> Metrics.validate_output_mode("1")
-        'parallel'
-        >>> Metrics.validate_output_mode("2")
-        'phase-1'
-        >>> Metrics.validate_output_mode("3")
-        'phase-2'
-        >>> Metrics.validate_output_mode("4")
-        'phase-3'
-        """
-        return constants.OUTPUT_MODES[int(value)]
+        return validators.output_mode(value)
 
     @field_validator("work_mode")
     def validate_work_mode(cls, value: str) -> str:
-        """
-        >>> Metrics.validate_work_mode("B")
-        'battery'
-        >>> Metrics.validate_work_mode("F")
-        'fault'
-        >>> Metrics.validate_work_mode("H")
-        'eco'
-        >>> Metrics.validate_work_mode("L")
-        'line'
-        >>> Metrics.validate_work_mode("P")
-        'power-on'
-        >>> Metrics.validate_work_mode("S")
-        'stand-by'
-        """
-        return constants.WORK_MODES[value]
+        return validators.work_mode(value)
 
     @staticmethod
     def get_error(errno: int) -> str:
@@ -231,95 +195,31 @@ class Ratings(BaseModel):
 
     @field_validator("battery_type")
     def validate_battery_type(cls, value: str) -> str:
-        """
-        >>> Ratings.validate_battery_type("0")
-        'agm'
-        >>> Ratings.validate_battery_type("1")
-        'flooded'
-        >>> Ratings.validate_battery_type("2")
-        'user'
-        >>> Ratings.validate_battery_type("3")
-        'unknown'
-        """
-        return constants.BATTERY_TYPES[int(value)]
+        return validators.battery_type(value)
 
     @field_validator("charger_source_priority")
     def validate_charger_source_priority(cls, value: str) -> str:
-        """
-        >>> Ratings.validate_charger_source_priority("0")
-        'utility-first'
-        >>> Ratings.validate_charger_source_priority("1")
-        'solar-first'
-        >>> Ratings.validate_charger_source_priority("2")
-        'solar-and-utility'
-        >>> Ratings.validate_charger_source_priority("3")
-        'solar-only'
-        """
-        return constants.CHARGER_SOURCE_PRIORITIES[int(value)]
+        return validators.charger_source_priority(value)
 
     @field_validator("input_voltage_range")
     def validate_input_voltage_range(cls, value: str) -> str:
-        """
-        >>> Ratings.validate_input_voltage_range("0")
-        'appliance'
-        >>> Ratings.validate_input_voltage_range("1")
-        'ups'
-        """
-        return constants.INPUT_VOLTAGE_RANGES[int(value)]
+        return validators.input_voltage_range(value)
 
     @field_validator("machine_type")
     def validate_machine_type(cls, value: str) -> str:
-        """
-        >>> Ratings.validate_machine_type("00")
-        'grid-tie'
-        >>> Ratings.validate_machine_type("01")
-        'off-grid'
-        >>> Ratings.validate_machine_type("10")
-        'hybrid'
-        >>> Ratings.validate_machine_type("11")
-        'off-grid-with-2-trackers'
-        >>> Ratings.validate_machine_type("20")
-        'off-grid-with-3-trackers'
-        """
-        return constants.MACHINE_TYPES[value]
+        return validators.machine_type(value)
 
     @field_validator("output_mode")
     def validate_output_mode(cls, value: str) -> str:
-        """
-        >>> Ratings.validate_output_mode("00")
-        'single'
-        >>> Ratings.validate_output_mode("01")
-        'parallel'
-        >>> Ratings.validate_output_mode("02")
-        'phase-1'
-        >>> Ratings.validate_output_mode("03")
-        'phase-2'
-        >>> Ratings.validate_output_mode("04")
-        'phase-3'
-        """
-        return constants.OUTPUT_MODES[int(value)]
+        return validators.output_mode(value)
 
     @field_validator("output_source_priority")
     def validate_output_source_priority(cls, value: str) -> str:
-        """
-        >>> Ratings.validate_output_source_priority("0")
-        'utility-first'
-        >>> Ratings.validate_output_source_priority("1")
-        'solar-first'
-        >>> Ratings.validate_output_source_priority("2")
-        'sbu-first'
-        """
-        return constants.OUTPUT_SOURCE_PRIORITIES[int(value)]
+        return validators.output_source_priority(value)
 
     @field_validator("topology")
     def validate_topology(cls, value: str) -> str:
-        """
-        >>> Ratings.validate_topology("0")
-        'transformerless'
-        >>> Ratings.validate_topology("1")
-        'transformer'
-        """
-        return constants.TOPOLOGIES[int(value)]
+        return validators.topology(value)
 
 
 class Settings(BaseModel):
@@ -351,59 +251,19 @@ class Settings(BaseModel):
 
     @field_validator("battery_type")
     def validate_battery_type(cls, value: str) -> str:
-        """
-        >>> Ratings.validate_battery_type("0")
-        'agm'
-        >>> Ratings.validate_battery_type("1")
-        'flooded'
-        >>> Ratings.validate_battery_type("2")
-        'user'
-        >>> Ratings.validate_battery_type("3")
-        'unknown'
-        """
-        return constants.BATTERY_TYPES[int(value)]
+        return validators.battery_type(value)
 
     @field_validator("charger_source_priority")
     def validate_charger_source_priority(cls, value: str) -> str:
-        """
-        >>> Ratings.validate_charger_source_priority("0")
-        'utility-first'
-        >>> Ratings.validate_charger_source_priority("1")
-        'solar-first'
-        >>> Ratings.validate_charger_source_priority("2")
-        'solar-and-utility'
-        >>> Ratings.validate_charger_source_priority("3")
-        'solar-only'
-        """
-        return constants.CHARGER_SOURCE_PRIORITIES[int(value)]
+        return validators.charger_source_priority(value)
 
     @field_validator("output_mode")
     def validate_output_mode(cls, value: str) -> str:
-        """
-        >>> Ratings.validate_output_mode("00")
-        'single'
-        >>> Ratings.validate_output_mode("01")
-        'parallel'
-        >>> Ratings.validate_output_mode("02")
-        'phase-1'
-        >>> Ratings.validate_output_mode("03")
-        'phase-2'
-        >>> Ratings.validate_output_mode("04")
-        'phase-3'
-        """
-        return constants.OUTPUT_MODES[int(value)]
+        return validators.output_mode(value)
 
     @field_validator("output_source_priority")
     def validate_output_source_priority(cls, value: str) -> str:
-        """
-        >>> Ratings.validate_output_source_priority("0")
-        'utility-first'
-        >>> Ratings.validate_output_source_priority("1")
-        'solar-first'
-        >>> Ratings.validate_output_source_priority("2")
-        'sbu-first'
-        """
-        return constants.OUTPUT_SOURCE_PRIORITIES[int(value)]
+        return validators.output_source_priority(value)
 
 
 # Unpack classes (going from a serial raw response to a managed Python object)

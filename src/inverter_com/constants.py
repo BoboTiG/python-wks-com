@@ -23,7 +23,11 @@ BATTERY_TYPES = [
     "agm",
     "flooded",
     "user",
-    "unknown",
+    "pylon",
+    "weco",
+    "soltaro",
+    "lib",
+    "lic",
 ]
 BATTERY_STATUSES = {
     "00": "normal",
@@ -81,14 +85,17 @@ MACHINE_TYPES = {
 OUTPUT_MODES = [
     "single",
     "parallel",
-    "phase-1",
-    "phase-2",
-    "phase-3",
+    "phase-1-of-3",
+    "phase-2-of-3",
+    "phase-3-of-3",
+    "phase-1-of-2",
+    "phase-2-of-2-120-deg",
+    "phase-2-of-2-180-deg",
 ]
 OUTPUT_SOURCE_PRIORITIES = [
-    "utility-first",
-    "solar-first",
-    "sbu-first",
+    "utility-solar-bat",
+    "solar-utility-bat",
+    "solar-bat-utility",
 ]
 TOPOLOGIES = [
     "transformerless",
