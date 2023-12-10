@@ -286,6 +286,109 @@ class Status(BaseModel):
     status: str
 
 
+class Warnings(BaseModel):
+    warnings: str = Field(exclude=True, title="warnings")
+
+    @computed_field
+    def pv_loss(self) -> bool:
+        return self.check(0)
+
+    @computed_field
+    def inverter_fault(self) -> bool:
+        return self.check(1)
+
+    @computed_field
+    def bus_over(self) -> bool:
+        return self.check(2)
+
+    @computed_field
+    def bus_under(self) -> bool:
+        return self.check(3)
+
+    @computed_field
+    def bus_soft_fail(self) -> bool:
+        return self.check(4)
+
+    @computed_field
+    def line_fail(self) -> bool:
+        return self.check(5)
+
+    @computed_field
+    def opvshort(self) -> bool:
+        return self.check(6)
+
+    @computed_field
+    def inverter_voltage_too_low(self) -> bool:
+        return self.check(7)
+
+    @computed_field
+    def inverter_voltage_too_high(self) -> bool:
+        return self.check(8)
+
+    @computed_field
+    def over_temperature(self) -> bool:
+        return self.check(9)
+
+    @computed_field
+    def fan_locked(self) -> bool:
+        return self.check(10)
+
+    @computed_field
+    def battery_voltage_high(self) -> bool:
+        return self.check(11)
+
+    @computed_field
+    def battery_low_alarm(self) -> bool:
+        return self.check(12)
+
+    @computed_field
+    def battery_under_shutdown(self) -> bool:
+        return self.check(14)
+
+    @computed_field
+    def battery_derating(self) -> bool:
+        return self.check(15)
+
+    @computed_field
+    def over_load(self) -> bool:
+        return self.check(16)
+
+    @computed_field
+    def eeprom_fault(self) -> bool:
+        return self.check(17)
+
+    @computed_field
+    def inverter_over_current(self) -> bool:
+        return self.check(18)
+
+    @computed_field
+    def inverter_soft_fail(self) -> bool:
+        return self.check(19)
+
+    @computed_field
+    def self_test_fail(self) -> bool:
+        return self.check(20)
+
+    @computed_field
+    def op_dc_voltage_over(self) -> bool:
+        return self.check(21)
+
+    @computed_field
+    def bat_open(self) -> bool:
+        return self.check(22)
+
+    @computed_field
+    def current_sensor_fail(self) -> bool:
+        return self.check(23)
+
+    @computed_field
+    def battery_week(self) -> bool:
+        return self.check(31)
+
+    def check(self, index: int) -> bool:
+        return self.warnings[index] == "1"
+
+
 # Unpack classes (going from a serial raw response to a managed Python object)
 UNPACKERS: dict[str, BaseModel] = {
     constants.CMD_FLAGS: Flags,
@@ -302,6 +405,7 @@ UNPACKERS: dict[str, BaseModel] = {
     constants.CMD_RATINGS: Ratings,
     constants.CMD_SETTINGS: Settings,
     constants.CMD_STATUS: Status,
+    constants.CMD_WARNINGS: Warnings,
 }
 
 

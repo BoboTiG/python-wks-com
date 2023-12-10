@@ -160,3 +160,35 @@ def test_unpack_status() -> None:
         "pv_input_voltage": 0.0,
         "status": "00010000",
     }
+
+
+def test_unpack_warnings() -> None:
+    seq = "000000000000000000000010000000010000"
+    res = unpack(constants.CMD_WARNINGS, seq)
+
+    assert res == {
+        "bat_open": True,
+        "battery_derating": False,
+        "battery_low_alarm": False,
+        "battery_under_shutdown": False,
+        "battery_voltage_high": False,
+        "battery_week": True,
+        "bus_over": False,
+        "bus_soft_fail": False,
+        "bus_under": False,
+        "current_sensor_fail": False,
+        "eeprom_fault": False,
+        "fan_locked": False,
+        "inverter_fault": False,
+        "inverter_over_current": False,
+        "inverter_soft_fail": False,
+        "inverter_voltage_too_high": False,
+        "inverter_voltage_too_low": False,
+        "line_fail": False,
+        "op_dc_voltage_over": False,
+        "opvshort": False,
+        "over_load": False,
+        "over_temperature": False,
+        "pv_loss": False,
+        "self_test_fail": False,
+    }
