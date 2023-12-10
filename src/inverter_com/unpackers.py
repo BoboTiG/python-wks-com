@@ -409,13 +409,19 @@ UNPACKERS: dict[str, BaseModel] = {
     constants.CMD_RATINGS: Ratings,
     constants.CMD_SETTINGS: Settings,
     constants.CMD_STATUS: Status,
+    constants.CMD_TOTAL_PV: TotalPv,
     constants.CMD_WARNINGS: Warnings,
 }
 
 
 def unpack(command: str, seq: str) -> str | dict[str, str | int | float | bool]:
     """
+    >>> # Command
     >>> unpack("QID", "96332309100452")
+    '96332309100452'
+
+    >>> # Alias (serial-no is an alias to the QID command)
+    >>> unpack("serial-no", "96332309100452")
     '96332309100452'
     """
     if not (unpacker_cls := UNPACKERS.get(command)):
