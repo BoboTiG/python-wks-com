@@ -17,12 +17,12 @@ log = logging.getLogger(__name__)
 @dataclass
 class Inverter:
     port: str
-    baudrate: int = 2400
-    bytesize: int = serial.EIGHTBITS
-    parity: str = serial.PARITY_NONE
+    baudrate: int = field(default=2400, repr=False)
+    bytesize: int = field(default=serial.EIGHTBITS, repr=False)
+    parity: str = field(default=serial.PARITY_NONE, repr=False)
     reads: int = field(default=0, init=False)
     serial_no: str = field(init=False)
-    stopbits: int = serial.STOPBITS_ONE
+    stopbits: int = field(default=serial.STOPBITS_ONE, repr=False)
     writes: int = field(default=0, init=False)
 
     _conn: serial.Serial = field(init=False, repr=False)
