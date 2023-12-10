@@ -389,6 +389,10 @@ class Warnings(BaseModel):
         return self.warnings[index] == "1"
 
 
+class TotalLoad(BaseModel):
+    total_output_load_energy: int
+
+
 class TotalPv(BaseModel):
     total_pv_generated_energy: int
 
@@ -409,6 +413,7 @@ UNPACKERS: dict[str, BaseModel] = {
     constants.CMD_RATINGS: Ratings,
     constants.CMD_SETTINGS: Settings,
     constants.CMD_STATUS: Status,
+    constants.CMD_TOTAL_LOAD: TotalLoad,
     constants.CMD_TOTAL_PV: TotalPv,
     constants.CMD_WARNINGS: Warnings,
 }

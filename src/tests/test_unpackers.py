@@ -162,6 +162,13 @@ def test_unpack_status() -> None:
     }
 
 
+def test_unpack_total_load() -> None:
+    seq = "00061300"
+    res = unpack(constants.CMD_TOTAL_LOAD, seq)
+
+    assert res == {"total_output_load_energy": 61300}
+
+
 def test_unpack_total_pv() -> None:
     seq = "00005200"
     res = unpack(constants.CMD_TOTAL_PV, seq)
