@@ -2,6 +2,8 @@
 This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-inverter-com
 """
+from datetime import datetime
+
 from inverter_com import constants
 
 
@@ -99,6 +101,14 @@ def output_source_priority(value: str) -> str:
     'solar-bat-utility'
     """
     return constants.OUTPUT_SOURCE_PRIORITIES[int(value)]
+
+
+def time(value: str) -> str:
+    """
+    >>> time("20231210204150")
+    '2023-12-10 20:41:50'
+    """
+    return str(datetime.strptime(value, "%Y%m%d%H%M%S"))
 
 
 def topology(value: str) -> str:

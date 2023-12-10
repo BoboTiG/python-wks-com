@@ -66,6 +66,7 @@ There are also aliases you could use:
 - `serial-no` for the `QID` command;
 - `settings` for the `QDI` command;
 - `status` for the `QPIGS` command;
+- `time` for the `QT` command;
 - `total-load` for the `QLT` command;
 - `total-pv` for the `QET` command;
 - `warnings` for the `QPIWS` command;

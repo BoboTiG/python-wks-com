@@ -389,6 +389,14 @@ class Warnings(BaseModel):
         return self.warnings[index] == "1"
 
 
+class Time(BaseModel):
+    time: str
+
+    @field_validator("time")
+    def validate_time(cls, value: str) -> str:
+        return validators.time(value)
+
+
 class TotalLoad(BaseModel):
     total_output_load_energy: int
 
@@ -413,6 +421,7 @@ UNPACKERS: dict[str, BaseModel] = {
     constants.CMD_RATINGS: Ratings,
     constants.CMD_SETTINGS: Settings,
     constants.CMD_STATUS: Status,
+    constants.CMD_TIME: Time,
     constants.CMD_TOTAL_LOAD: TotalLoad,
     constants.CMD_TOTAL_PV: TotalPv,
     constants.CMD_WARNINGS: Warnings,

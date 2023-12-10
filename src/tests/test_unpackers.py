@@ -162,6 +162,13 @@ def test_unpack_status() -> None:
     }
 
 
+def test_unpack_time() -> None:
+    seq = "20231210204150"
+    res = unpack(constants.CMD_TIME, seq)
+
+    assert res == {"time": "2023-12-10 20:41:50"}
+
+
 def test_unpack_total_load() -> None:
     seq = "00061300"
     res = unpack(constants.CMD_TOTAL_LOAD, seq)

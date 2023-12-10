@@ -18,6 +18,7 @@ CMD_RATINGS = "QPIRI"  # Device rating information inquiry
 CMD_SERIAL_NO = "QID"  # Device serial number inquiry
 CMD_SETTINGS = "QDI"  # Default setting value information inquiry
 CMD_STATUS = "QPIGS"  # Device general status parameters inquiry
+CMD_TIME = "QT"  # Time inquiry
 CMD_TOTAL_LOAD = "QLT"  # Query total output load energy
 CMD_TOTAL_PV = "QET"  # Query total PV generated energy
 CMD_WARNINGS = "QPIWS"  # Device warning status inquiry
