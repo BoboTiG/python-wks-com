@@ -5,6 +5,7 @@ Source: https://github.com/BoboTiG/python-inverter-com
 from pydantic import BaseModel, Field, computed_field, field_validator
 
 from inverter_com import constants, validators
+from inverter_com.types import Result
 
 
 class Flags(BaseModel):
@@ -428,7 +429,7 @@ UNPACKERS: dict[str, BaseModel] = {
 }
 
 
-def unpack(command: str, seq: str) -> str | dict[str, str | int | float | bool]:
+def unpack(command: str, seq: str) -> Result:
     """
     >>> # Command
     >>> unpack("QID", "96332309100452")

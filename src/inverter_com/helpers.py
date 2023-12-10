@@ -2,6 +2,18 @@
 This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-inverter-com
 """
+import logging
+from typing import TYPE_CHECKING, Callable
+
+from serial import SerialException
+
+from inverter_com.types import Result
+
+if TYPE_CHECKING:  # pragma: nocover
+    from inverter_com.inverter import Inverter
+
+
+log = logging.getLogger(__file__)
 
 
 def compute_crc(value: str) -> str:
@@ -28,6 +40,21 @@ def extract_response(seq: bytes) -> str:
     # Remove leading parenthesis, and trailing CRC + CR
     seq = seq[1:-3]
     return seq.decode(encoding="latin1")
+
+
+def retry(func: Callable[["Inverter", str], Result]) -> Callable[["Inverter", str], Result]:
+    def inner(cls: "Inverter", command: str) -> Result:
+        for count in range(2):
+            try:
+                return func(cls, command)
+            except SerialException:
+                msg = "again" if count == 0 else "one last time"
+                log.exception(f"Serial error, will try {msg}")
+
+        # The last try
+        return func(cls, command)
+
+    return inner
 
 
 def test_commands(port: str, *commands: str, debug: bool = False) -> None:

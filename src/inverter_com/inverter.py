@@ -8,7 +8,8 @@ from dataclasses import dataclass, field
 import serial
 
 from inverter_com.constants import CMD_SERIAL_NO
-from inverter_com.helpers import compute_crc, extract_response
+from inverter_com.helpers import compute_crc, extract_response, retry
+from inverter_com.types import Result
 from inverter_com.unpackers import unpack
 
 log = logging.getLogger(__name__)
@@ -45,7 +46,8 @@ class Inverter:
         self.reads += len(res)
         return res
 
-    def send(self, command: str) -> str | dict[str, str | int | float | bool]:
+    @retry
+    def send(self, command: str) -> Result:
         self.write(command)
         res = unpack(command, extract_response(self.read()))
         log.debug(f"{self._conn.port} < DECODED {res!r}")
