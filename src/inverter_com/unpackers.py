@@ -389,6 +389,10 @@ class Warnings(BaseModel):
         return self.warnings[index] == "1"
 
 
+class TotalPv(BaseModel):
+    total_pv_generated_energy: int
+
+
 # Unpack classes (going from a serial raw response to a managed Python object)
 UNPACKERS: dict[str, BaseModel] = {
     constants.CMD_FLAGS: Flags,

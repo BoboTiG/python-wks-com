@@ -162,6 +162,13 @@ def test_unpack_status() -> None:
     }
 
 
+def test_unpack_total_pv() -> None:
+    seq = "00005200"
+    res = unpack(constants.CMD_TOTAL_PV, seq)
+
+    assert res == {"total_pv_generated_energy": 5200}
+
+
 def test_unpack_warnings() -> None:
     seq = "000000000000000000000010000000010000"
     res = unpack(constants.CMD_WARNINGS, seq)
