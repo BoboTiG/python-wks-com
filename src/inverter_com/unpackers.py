@@ -266,6 +266,26 @@ class Settings(BaseModel):
         return validators.output_source_priority(value)
 
 
+class Status(BaseModel):
+    grid_voltage: float
+    grid_freq: float
+    ac_output_voltage: float
+    ac_output_freq: float
+    ac_output_apparent_power: int
+    ac_output_active_power: int
+    output_overload_percent: int
+    bus_voltage: int
+    battery_voltage: float
+    battery_charging_current: int
+    battery_capacity: int
+    inverter_heat_sink_temperature: int
+    pv_input_current_for_battery: int
+    pv_input_voltage: float
+    battery_voltage_from_scc: float
+    battery_discharge_current: int
+    status: str
+
+
 # Unpack classes (going from a serial raw response to a managed Python object)
 UNPACKERS: dict[str, BaseModel] = {
     constants.CMD_FLAGS: Flags,
@@ -281,6 +301,7 @@ UNPACKERS: dict[str, BaseModel] = {
     constants.CMD_METRICS_9: Metrics,
     constants.CMD_RATINGS: Ratings,
     constants.CMD_SETTINGS: Settings,
+    constants.CMD_STATUS: Status,
 }
 
 

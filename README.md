@@ -65,6 +65,7 @@ There are also aliases you could use:
 - `ratings` for the `QPIRI` command;
 - `serial-no` for the `QID` command;
 - `settings` for the `QDI` command;
+- `status` for the `QPIGS` command;
 
 When the inverter does not understand a command, it will return the `NAK` keyword.
 
