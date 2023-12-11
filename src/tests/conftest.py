@@ -8,7 +8,7 @@ import pty
 import pytest
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture()
 def port() -> str:
     """http://allican.be/blog/2017/01/15/python-dummy-serial-port.html"""
     _, slave = pty.openpty()

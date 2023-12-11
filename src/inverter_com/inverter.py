@@ -20,6 +20,7 @@ class Inverter:
     port: str
     baudrate: int = field(default=2400, repr=False)
     bytesize: int = field(default=serial.EIGHTBITS, repr=False)
+    exclusive: bool = field(default=True, repr=False)
     parity: str = field(default=serial.PARITY_NONE, repr=False)
     reads: int = field(default=0, init=False)
     serial_no: str = field(init=False)
@@ -35,6 +36,7 @@ class Inverter:
             parity=self.parity,
             port=self.port,
             stopbits=self.stopbits,
+            exclusive=self.exclusive,
         )
 
         # Fetch the device serial number

@@ -5,6 +5,7 @@ Source: https://github.com/BoboTiG/python-inverter-com
 import logging
 from unittest.mock import patch
 
+import pytest
 from serial import SerialException
 
 from inverter_com.inverter import Inverter
@@ -17,6 +18,20 @@ def read_until(expected: str = "") -> bytes:
 def write(seq: bytes) -> int:
     assert seq == b"cmd\x93o\r"
     return len(seq)
+
+
+def test_exclusive_access(port: str) -> None:
+    with patch("inverter_com.inverter.Inverter.send") as mocked:
+        mocked.return_value = "XXX"
+        inverter = Inverter(port)
+
+    with pytest.raises(SerialException) as exc:
+        Inverter(port)
+
+    assert exc.value.errno == 11
+    assert "Could not exclusively lock port" in exc.value.strerror
+    assert inverter.reads == 0
+    assert inverter.writes == 0
 
 
 def test_read(port: str) -> None:
