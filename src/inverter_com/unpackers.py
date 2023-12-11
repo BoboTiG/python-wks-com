@@ -280,7 +280,7 @@ class Status(BaseModel):
     battery_charging_current: int
     battery_capacity: int
     inverter_heat_sink_temperature: int
-    pv_input_current_for_battery: int
+    pv_input_current: float
     pv_input_voltage: float
     battery_voltage_from_scc: float
     battery_discharge_current: int

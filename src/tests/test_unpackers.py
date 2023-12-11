@@ -138,27 +138,27 @@ def test_unpack_settings() -> None:
 
 
 def test_unpack_status() -> None:
-    seq = "230.8 50.0 230.8 50.0 0369 0294 006 320 00.80 000 000 0020 00.0 000.0 00.00 00000 00010000 00 00 00000 010"
+    seq = "231.0 50.0 231.0 50.0 0831 0816 014 363 00.70 001 001 0021 00.1 119.8 00.10 00001 00010110 01 01 00013 010"
     res = unpack(constants.CMD_STATUS, seq)
 
     assert res == {
-        "ac_output_active_power": 294,
-        "ac_output_apparent_power": 369,
+        "ac_output_active_power": 816,
+        "ac_output_apparent_power": 831,
         "ac_output_freq": 50.0,
-        "ac_output_voltage": 230.8,
-        "battery_capacity": 0,
-        "battery_charging_current": 0,
-        "battery_discharge_current": 0,
-        "battery_voltage": 0.8,
-        "battery_voltage_from_scc": 0.0,
-        "bus_voltage": 320,
+        "ac_output_voltage": 231.0,
+        "battery_capacity": 1,
+        "battery_charging_current": 1,
+        "battery_discharge_current": 1,
+        "battery_voltage": 0.7,
+        "battery_voltage_from_scc": 0.1,
+        "bus_voltage": 363,
         "grid_freq": 50.0,
-        "grid_voltage": 230.8,
-        "inverter_heat_sink_temperature": 20,
-        "output_overload_percent": 6,
-        "pv_input_current_for_battery": 0,
-        "pv_input_voltage": 0.0,
-        "status": "00010000",
+        "grid_voltage": 231.0,
+        "inverter_heat_sink_temperature": 21,
+        "output_overload_percent": 14,
+        "pv_input_current": 0.1,
+        "pv_input_voltage": 119.8,
+        "status": "00010110",
     }
 
 
