@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 
 import serial
 
-from inverter_com.constants import CMD_SERIAL_NO
+from inverter_com.constants import CMD_MODEL, CMD_SERIAL_NO
 from inverter_com.helpers import compute_crc, extract_response, retry
 from inverter_com.types import Result
 from inverter_com.unpackers import unpack
@@ -21,9 +21,10 @@ class Inverter:
     baudrate: int = field(default=2400, repr=False)
     bytesize: int = field(default=serial.EIGHTBITS, repr=False)
     exclusive: bool = field(default=True, repr=False)
+    model: str = "MKS2-5600"
     parity: str = field(default=serial.PARITY_NONE, repr=False)
     reads: int = field(default=0, init=False)
-    serial_no: str = field(init=False)
+    serial_no: str = ""
     stopbits: int = field(default=serial.STOPBITS_ONE, repr=False)
     writes: int = field(default=0, init=False)
 
@@ -39,8 +40,9 @@ class Inverter:
             exclusive=self.exclusive,
         )
 
-        # Fetch the device serial number
-        self.serial_no = str(self.send(CMD_SERIAL_NO))
+        # Fetch primary device information, if not already provided
+        self.model = self.model or str(self.send(CMD_MODEL))
+        self.serial_no = self.serial_no or str(self.send(CMD_SERIAL_NO))
 
     def read(self) -> bytes:
         res = self._conn.read_until(expected=b"\r")

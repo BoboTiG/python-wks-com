@@ -14,6 +14,7 @@ CMD_METRICS_6 = "QPGS6"
 CMD_METRICS_7 = "QPGS7"
 CMD_METRICS_8 = "QPGS8"
 CMD_METRICS_9 = "QPGS9"
+CMD_MODEL = "QMN"  # Query model name
 CMD_RATINGS = "QPIRI"  # Device rating information inquiry
 CMD_SERIAL_NO = "QID"  # Device serial number inquiry
 CMD_SETTINGS = "QDI"  # Default setting value information inquiry
