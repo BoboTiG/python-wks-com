@@ -12,8 +12,24 @@ class QED(BaseModel):
     pv_generated_energy_for_day: int
 
 
+class QEM(BaseModel):
+    pv_generated_energy_for_month: int
+
+
+class QEY(BaseModel):
+    pv_generated_energy_for_year: int
+
+
 class QLD(BaseModel):
     output_load_energy_for_day: int
+
+
+class QLM(BaseModel):
+    output_load_energy_for_month: int
+
+
+class QLY(BaseModel):
+    output_load_energy_for_year: int
 
 
 class QPGS0(BaseModel):
@@ -343,14 +359,18 @@ class QT(BaseModel):
 
 # Unpack classes (going from a serial raw response to a managed Python object)
 UNPACKERS: dict[str, BaseModel] = {
+    constants.CMD_DAILY_LOAD: QLD,
+    constants.CMD_DAILY_PV: QED,
     constants.CMD_METRICS: QPGS0,
+    constants.CMD_MONTHLY_LOAD: QLM,
+    constants.CMD_MONTHLY_PV: QEM,
     constants.CMD_Q1: Q1,
     constants.CMD_RATINGS: QPIRI,
     constants.CMD_STATUS: QPIGS,
-    constants.CMD_DAILY_LOAD: QLD,
-    constants.CMD_DAILY_PV: QED,
     constants.CMD_TIME: QT,
     constants.CMD_WARNINGS: QPIWS,
+    constants.CMD_YEARLY_LOAD: QLY,
+    constants.CMD_YEARLY_PV: QEY,
 }
 
 

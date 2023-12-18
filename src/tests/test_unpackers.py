@@ -33,11 +33,39 @@ def test_QED() -> None:
     assert res == {"pv_generated_energy_for_day": 4820}
 
 
+def test_QEM() -> None:
+    seq = "00004820"
+    res = unpack(constants.CMD_MONTHLY_PV, seq)
+
+    assert res == {"pv_generated_energy_for_month": 4820}
+
+
+def test_QEY() -> None:
+    seq = "00004820"
+    res = unpack(constants.CMD_YEARLY_PV, seq)
+
+    assert res == {"pv_generated_energy_for_year": 4820}
+
+
 def test_QLD() -> None:
     seq = "00007844"
     res = unpack(constants.CMD_DAILY_LOAD, seq)
 
     assert res == {"output_load_energy_for_day": 7844}
+
+
+def test_QLM() -> None:
+    seq = "00007844"
+    res = unpack(constants.CMD_MONTHLY_LOAD, seq)
+
+    assert res == {"output_load_energy_for_month": 7844}
+
+
+def test_QLY() -> None:
+    seq = "00007844"
+    res = unpack(constants.CMD_YEARLY_LOAD, seq)
+
+    assert res == {"output_load_energy_for_year": 7844}
 
 
 def test_QPGS0() -> None:
