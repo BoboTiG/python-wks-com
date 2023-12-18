@@ -8,6 +8,7 @@ from unittest.mock import patch
 import pytest
 from serial import SerialException
 
+from inverter_com import constants
 from inverter_com.inverter import Inverter
 
 
@@ -20,11 +21,14 @@ def write(seq: bytes) -> int:
     return len(seq)
 
 
-def test_exclusive_access(port: str) -> None:
-    inverter = Inverter(port, serial_no="XXX")
+@pytest.fixture()
+def inverter(port: str) -> Inverter:
+    return Inverter(port)
 
+
+def test_exclusive_access(inverter: Inverter) -> None:
     with pytest.raises(SerialException) as exc:
-        Inverter(port)
+        Inverter(inverter.port)
 
     assert exc.value.errno == 11
     assert "Could not exclusively lock port" in exc.value.strerror
@@ -32,9 +36,29 @@ def test_exclusive_access(port: str) -> None:
     assert inverter.writes == 0
 
 
-def test_read(port: str) -> None:
-    inverter = Inverter(port, serial_no="XXX")
+@pytest.mark.parametrize(
+    "command, response, attr, expected",
+    [
+        (constants.CMD_MODEL, b"(MKS2-5600xx\r", "model", "MKS2-5600"),
+        (constants.CMD_SERIAL_NO, b"(96332309100458xx\r", "serial_no", "96332309100458"),
+        (
+            constants.CMD_METRICS,
+            (
+                b"(0 96332309100452 L 00 227.7 50.01 227.7 50.01 1252 1245 022 00.8 "
+                b"000 000 330.7 000 01252 01245 022 11102010 0 1 060 120 030 00 000xx\r"
+            ),
+            "serial_no",
+            "96332309100452",
+        ),
+    ],
+)
+def test_decode(command: str, response: bytes, attr: str, expected: str, inverter: Inverter) -> None:
+    assert getattr(inverter, attr) == ""
+    inverter.decode(command, response)
+    assert getattr(inverter, attr) == expected
 
+
+def test_read(inverter: Inverter) -> None:
     with patch.object(inverter._conn, "read_until", new=read_until):
         assert inverter.read() == b"(fooXX\r"
 
@@ -42,9 +66,7 @@ def test_read(port: str) -> None:
     assert inverter.writes == 0
 
 
-def test_send(port: str) -> None:
-    inverter = Inverter(port, model="AAA", serial_no="XXX")
-
+def test_send(inverter: Inverter) -> None:
     with (
         patch.object(inverter._conn, "read_until", new=read_until),
         patch.object(inverter._conn, "write", new=write),
@@ -53,11 +75,11 @@ def test_send(port: str) -> None:
 
     assert inverter.reads == 7
     assert inverter.writes == 6
-    assert repr(inverter) == f"Inverter(port={port!r}, model='AAA', reads=7, serial_no='XXX', writes=6)"
-    assert str(inverter) == f"Inverter(port={port!r}, model='AAA', reads=7, serial_no='XXX', writes=6)"
+    assert repr(inverter) == f"Inverter(port={inverter.port!r}, model='', reads=7, serial_no='', writes=6)"
+    assert str(inverter) == f"Inverter(port={inverter.port!r}, model='', reads=7, serial_no='', writes=6)"
 
 
-def test_send_retry(port: str, caplog) -> None:
+def test_send_retry(inverter: Inverter, caplog) -> None:
     """
     When a script keeps the connection open (like when reading data on a regular basis),
     and then one does a second call on the same port from another script (or via the `inverter-*` executable),
@@ -84,8 +106,6 @@ def test_send_retry(port: str, caplog) -> None:
             raise SerialException("device reports readiness to read but returned no data")
         return read_until(expected=expected)
 
-    inverter = Inverter(port, serial_no="XXX")
-
     with (
         patch.object(inverter._conn, "read_until", new=read_until_bad),
         patch.object(inverter._conn, "write", new=write),
@@ -99,9 +119,7 @@ def test_send_retry(port: str, caplog) -> None:
     assert len(errors_log) == 2
 
 
-def test_write(port: str) -> None:
-    inverter = Inverter(port, model="AAA", serial_no="XXX")
-
+def test_write(inverter: Inverter) -> None:
     with patch.object(inverter._conn, "write", new=write):
         assert inverter.write("cmd")
 

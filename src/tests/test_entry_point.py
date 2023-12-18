@@ -14,7 +14,7 @@ def test_read_single_command(port: str) -> None:
     ):
         mocked.return_value = {"foo": 42}
         assert __main__.read() == 0
-        assert mocked.call_count == 2
+        assert mocked.call_count == 1
         mocked.assert_called_with("cmd")
 
 
@@ -25,6 +25,6 @@ def test_read_multiple_commands(port: str) -> None:
     ):
         mocked.return_value = {"foo": 42}
         assert __main__.read() == 0
-        assert mocked.call_count == 3
+        assert mocked.call_count == 2
         mocked.assert_any_call("cmd1")
         mocked.assert_any_call("cmd2")
