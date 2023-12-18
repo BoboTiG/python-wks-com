@@ -16,7 +16,7 @@ def battery_type(value: str) -> str:
     >>> battery_type("2")
     'user'
     >>> battery_type("3")
-    'pylon'
+    'pylontech'
     >>> battery_type("4")
     'weco'
     >>> battery_type("5")
@@ -94,11 +94,11 @@ def output_mode(value: str) -> str:
 def output_source_priority(value: str) -> str:
     """
     >>> output_source_priority("0")
-    'utility-solar-bat'
+    'utility-solar-battery'
     >>> output_source_priority("1")
-    'solar-utility-bat'
+    'solar-utility-battery'
     >>> output_source_priority("2")
-    'solar-bat-utility'
+    'solar-battery-utility'
     """
     return constants.OUTPUT_SOURCE_PRIORITIES[int(value)]
 

@@ -59,16 +59,12 @@ You can send any commands as defined in the official documentation, and even unk
 
 There are also aliases you could use:
 
-- `flags` for the `QFLAG` command;
+- `daily-load` for the `QLD` command;
+- `daily-pv` for the `QED` command;
 - `metrics` for the `QPGS0` command;
-- `metrics-n` (where `n` is a number between 1 and 9) for the `QPGSn` command;
 - `ratings` for the `QPIRI` command;
 - `serial-no` for the `QID` command;
-- `settings` for the `QDI` command;
 - `status` for the `QPIGS` command;
-- `time` for the `QT` command;
-- `total-load` for the `QLT` command;
-- `total-pv` for the `QET` command;
 - `warnings` for the `QPIWS` command;
 
 When the inverter does not understand a command, it will return the `NAK` keyword.

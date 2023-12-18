@@ -8,56 +8,15 @@ from inverter_com import constants, validators
 from inverter_com.types import Result
 
 
-class Flags(BaseModel):
-    flags: str = Field(exclude=True, title="flags")
-
-    @computed_field
-    def silent_buzzer(self) -> bool:
-        return self.flags.index("a") < self.flags.index("D")
-
-    @computed_field
-    def overload_function(self) -> bool:
-        return self.flags.index("b") < self.flags.index("D")
-
-    @computed_field
-    def power_saving(self) -> bool:
-        return self.flags.index("j") < self.flags.index("D")
-
-    @computed_field
-    def lcd_display_escape_timeout(self) -> bool:
-        return self.flags.index("k") < self.flags.index("D")
-
-    @computed_field
-    def data_log_popup(self) -> bool:
-        return self.flags.index("l") < self.flags.index("D")
-
-    @computed_field
-    def unknown(self) -> bool:
-        # TODO: find out what is it for.
-        return self.flags.index("n") < self.flags.index("D")
-
-    @computed_field
-    def overload_restart(self) -> bool:
-        return self.flags.index("u") < self.flags.index("D")
-
-    @computed_field
-    def over_temperature_restart(self) -> bool:
-        return self.flags.index("v") < self.flags.index("D")
-
-    @computed_field
-    def lcd_backlight(self) -> bool:
-        return self.flags.index("x") < self.flags.index("D")
-
-    @computed_field
-    def alarm_on_primary_source_interrupt(self) -> bool:
-        return self.flags.index("y") < self.flags.index("D")
-
-    @computed_field
-    def fault_code_recording(self) -> bool:
-        return self.flags.index("z") < self.flags.index("D")
+class QED(BaseModel):
+    pv_generated_energy_for_day: int
 
 
-class Metrics(BaseModel):
+class QLD(BaseModel):
+    output_load_energy_for_day: int
+
+
+class QPGS0(BaseModel):
     parallel_num: int
     serial_no: str
     work_mode: str
@@ -133,11 +92,11 @@ class Metrics(BaseModel):
     @staticmethod
     def get_error(errno: int) -> str:
         """
-        >>> Metrics.get_error(0)
+        >>> QPGS0.get_error(0)
         'ok'
-        >>> Metrics.get_error(80)
+        >>> QPGS0.get_error(80)
         'can-communication-failed'
-        >>> Metrics.get_error(222)
+        >>> QPGS0.get_error(222)
         'error-222'
         """
         return constants.ERRORS.get(errno, f"error-{errno}")
@@ -145,15 +104,15 @@ class Metrics(BaseModel):
     @staticmethod
     def get_status(status: str) -> dict[str, str | bool]:
         """
-        >>> Metrics.get_status("00000000")
+        >>> QPGS0.get_status("00000000")
         {'ssc': 'lost', 'ac-charging': False, 'ssc-charging': False, 'battery': 'normal', 'line': 'ok', 'load': False, 'conf-changed': False}
-        >>> Metrics.get_status("11100111")
+        >>> QPGS0.get_status("11100111")
         {'ssc': 'ok', 'ac-charging': True, 'ssc-charging': True, 'battery': 'normal', 'line': 'lost', 'load': True, 'conf-changed': True}
-        >>> Metrics.get_status("00000000")["battery"]
+        >>> QPGS0.get_status("00000000")["battery"]
         'normal'
-        >>> Metrics.get_status("00001000")["battery"]
+        >>> QPGS0.get_status("00001000")["battery"]
         'under'
-        >>> Metrics.get_status("00002000")["battery"]
+        >>> QPGS0.get_status("00002000")["battery"]
         'open'
         """  # noqa[E501]
         return {
@@ -167,7 +126,27 @@ class Metrics(BaseModel):
         }
 
 
-class Ratings(BaseModel):
+class QPIGS(BaseModel):
+    grid_voltage: float
+    grid_freq: float
+    ac_output_voltage: float
+    ac_output_freq: float
+    ac_output_apparent_power: int
+    ac_output_active_power: int
+    output_overload_percent: int
+    bus_voltage: int
+    battery_voltage: float
+    battery_charging_current: int
+    battery_capacity: int
+    inverter_heat_sink_temperature: int
+    pv_input_current: float
+    pv_input_voltage: float
+    battery_voltage_from_scc: float
+    battery_discharge_current: int
+    status: str
+
+
+class QPIRI(BaseModel):
     grid_rating_voltage: float
     grid_rating_current: float
     ac_output_rating_voltage: float
@@ -223,71 +202,7 @@ class Ratings(BaseModel):
         return validators.topology(value)
 
 
-class Settings(BaseModel):
-    ac_output_voltage: float
-    ac_output_freq: float
-    max_ac_charging_current: int
-    battery_under_voltage: float
-    charging_float_voltage: float
-    charging_bulk_voltage: float
-    battery_default_recharge_voltage: float
-    max_charging_current: int
-    ac_input_voltage_range: int
-    output_source_priority: str
-    charger_source_priority: str
-    battery_type: str
-    silent_buzzer: bool
-    power_saving: bool
-    overload_restart: bool
-    over_temperature_restart: bool
-    lcd_backlight: bool
-    alarm_on_primary_source_interrupt: bool
-    fault_code_recording: bool
-    overload_bypass: bool
-    lcd_display_escape_timeout: int
-    output_mode: str
-    battery_redischarge_voltage: float
-    pv_ok_condition_for_parallel: bool
-    pv_power_balance: bool
-
-    @field_validator("battery_type")
-    def validate_battery_type(cls, value: str) -> str:
-        return validators.battery_type(value)
-
-    @field_validator("charger_source_priority")
-    def validate_charger_source_priority(cls, value: str) -> str:
-        return validators.charger_source_priority(value)
-
-    @field_validator("output_mode")
-    def validate_output_mode(cls, value: str) -> str:
-        return validators.output_mode(value)
-
-    @field_validator("output_source_priority")
-    def validate_output_source_priority(cls, value: str) -> str:
-        return validators.output_source_priority(value)
-
-
-class Status(BaseModel):
-    grid_voltage: float
-    grid_freq: float
-    ac_output_voltage: float
-    ac_output_freq: float
-    ac_output_apparent_power: int
-    ac_output_active_power: int
-    output_overload_percent: int
-    bus_voltage: int
-    battery_voltage: float
-    battery_charging_current: int
-    battery_capacity: int
-    inverter_heat_sink_temperature: int
-    pv_input_current: float
-    pv_input_voltage: float
-    battery_voltage_from_scc: float
-    battery_discharge_current: int
-    status: str
-
-
-class Warnings(BaseModel):
+class QPIWS(BaseModel):
     warnings: str = Field(exclude=True, title="warnings")
 
     @computed_field
@@ -390,42 +305,15 @@ class Warnings(BaseModel):
         return self.warnings[index] == "1"
 
 
-class Time(BaseModel):
-    time: str
-
-    @field_validator("time")
-    def validate_time(cls, value: str) -> str:
-        return validators.time(value)
-
-
-class TotalLoad(BaseModel):
-    total_output_load_energy: int
-
-
-class TotalPv(BaseModel):
-    total_pv_generated_energy: int
-
-
 # Unpack classes (going from a serial raw response to a managed Python object)
 UNPACKERS: dict[str, BaseModel] = {
-    constants.CMD_FLAGS: Flags,
-    constants.CMD_METRICS: Metrics,
-    constants.CMD_METRICS_1: Metrics,
-    constants.CMD_METRICS_2: Metrics,
-    constants.CMD_METRICS_3: Metrics,
-    constants.CMD_METRICS_4: Metrics,
-    constants.CMD_METRICS_5: Metrics,
-    constants.CMD_METRICS_6: Metrics,
-    constants.CMD_METRICS_7: Metrics,
-    constants.CMD_METRICS_8: Metrics,
-    constants.CMD_METRICS_9: Metrics,
-    constants.CMD_RATINGS: Ratings,
-    constants.CMD_SETTINGS: Settings,
-    constants.CMD_STATUS: Status,
-    constants.CMD_TIME: Time,
-    constants.CMD_TOTAL_LOAD: TotalLoad,
-    constants.CMD_TOTAL_PV: TotalPv,
-    constants.CMD_WARNINGS: Warnings,
+    constants.CMD_METRICS: QPGS0,
+    # constants.Q1: Q1,
+    constants.CMD_RATINGS: QPIRI,
+    constants.CMD_STATUS: QPIGS,
+    constants.CMD_DAILY_LOAD: QLD,
+    constants.CMD_DAILY_PV: QED,
+    constants.CMD_WARNINGS: QPIWS,
 }
 
 

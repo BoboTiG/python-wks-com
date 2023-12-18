@@ -6,25 +6,6 @@ from inverter_com import constants
 from inverter_com.unpackers import unpack
 
 
-def test_unpack_flags() -> None:
-    seq = "EabkuvxyzDjln"
-    res = unpack(constants.CMD_FLAGS, seq)
-
-    assert res == {
-        "alarm_on_primary_source_interrupt": True,
-        "data_log_popup": False,
-        "fault_code_recording": True,
-        "lcd_backlight": True,
-        "lcd_display_escape_timeout": True,
-        "over_temperature_restart": True,
-        "overload_function": True,
-        "overload_restart": True,
-        "power_saving": False,
-        "silent_buzzer": True,
-        "unknown": False,
-    }
-
-
 def test_unpack_metrics() -> None:
     seq = (
         "0 96332309100452 L 00 227.7 50.01 227.7 50.01 1252 1245 022 00.8 "
@@ -86,7 +67,7 @@ def test_unpack_ratings() -> None:
         "battery_float_voltage": 54.0,
         "battery_rating_voltage": 48.0,
         "battery_recharge_voltage": 46.0,
-        "battery_type": "pylon",
+        "battery_type": "pylontech",
         "battery_under_voltage": 42.0,
         "charger_source_priority": "solar-first",
         "grid_rating_current": 24.3,
@@ -96,44 +77,11 @@ def test_unpack_ratings() -> None:
         "max_ac_charging_current": 30,
         "max_charging_current": 60,
         "output_mode": "single",
-        "output_source_priority": "solar-bat-utility",
+        "output_source_priority": "solar-battery-utility",
         "parallel_max_num": 9,
         "pv_ok_condition_for_parallel": False,
         "pv_power_balance": True,
         "topology": "transformerless",
-    }
-
-
-def test_unpack_settings() -> None:
-    seq = "230.0 50.0 0030 42.0 54.0 56.4 46.0 60 0 0 2 0 0 0 0 0 1 1 0 0 1 0 54.0 0 1 000"
-    res = unpack(constants.CMD_SETTINGS, seq)
-
-    assert res == {
-        "ac_input_voltage_range": 0,
-        "ac_output_freq": 50.0,
-        "ac_output_voltage": 230.0,
-        "alarm_on_primary_source_interrupt": True,
-        "battery_default_recharge_voltage": 46.0,
-        "battery_redischarge_voltage": 54.0,
-        "battery_type": "agm",
-        "battery_under_voltage": 42.0,
-        "charger_source_priority": "solar-and-utility",
-        "charging_bulk_voltage": 56.4,
-        "charging_float_voltage": 54.0,
-        "fault_code_recording": False,
-        "lcd_backlight": True,
-        "lcd_display_escape_timeout": 1,
-        "max_ac_charging_current": 30,
-        "max_charging_current": 60,
-        "output_mode": "single",
-        "output_source_priority": "utility-solar-bat",
-        "over_temperature_restart": False,
-        "overload_bypass": False,
-        "overload_restart": False,
-        "power_saving": False,
-        "pv_ok_condition_for_parallel": False,
-        "pv_power_balance": True,
-        "silent_buzzer": False,
     }
 
 
@@ -162,25 +110,18 @@ def test_unpack_status() -> None:
     }
 
 
-def test_unpack_time() -> None:
-    seq = "20231210204150"
-    res = unpack(constants.CMD_TIME, seq)
+def test_unpack_daily_load() -> None:
+    seq = "00007844"
+    res = unpack(constants.CMD_DAILY_LOAD, seq)
 
-    assert res == {"time": "2023-12-10 20:41:50"}
-
-
-def test_unpack_total_load() -> None:
-    seq = "00061300"
-    res = unpack(constants.CMD_TOTAL_LOAD, seq)
-
-    assert res == {"total_output_load_energy": 61300}
+    assert res == {"output_load_energy_for_day": 7844}
 
 
-def test_unpack_total_pv() -> None:
-    seq = "00005200"
-    res = unpack(constants.CMD_TOTAL_PV, seq)
+def test_unpack_daily_pv() -> None:
+    seq = "00004820"
+    res = unpack(constants.CMD_DAILY_PV, seq)
 
-    assert res == {"total_pv_generated_energy": 5200}
+    assert res == {"pv_generated_energy_for_day": 4820}
 
 
 def test_unpack_warnings() -> None:

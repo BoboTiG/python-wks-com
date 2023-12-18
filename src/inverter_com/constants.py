@@ -3,25 +3,14 @@ This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-inverter-com
 """
 # Commands
-CMD_FLAGS = "QFLAG"  # Device flag status inquiry
+CMD_DAILY_LOAD = "QLD"  # Query daily output load energy
+CMD_DAILY_PV = "QED"  # Query daily PV generated energy
 CMD_METRICS = "QPGS0"  # Parallel information inquiry
-CMD_METRICS_1 = "QPGS1"
-CMD_METRICS_2 = "QPGS2"
-CMD_METRICS_3 = "QPGS3"
-CMD_METRICS_4 = "QPGS4"
-CMD_METRICS_5 = "QPGS5"
-CMD_METRICS_6 = "QPGS6"
-CMD_METRICS_7 = "QPGS7"
-CMD_METRICS_8 = "QPGS8"
-CMD_METRICS_9 = "QPGS9"
 CMD_MODEL = "QMN"  # Query model name
+CMD_Q1 = "Q1"  # "The Q1 command", thanks to the documentation
 CMD_RATINGS = "QPIRI"  # Device rating information inquiry
 CMD_SERIAL_NO = "QID"  # Device serial number inquiry
-CMD_SETTINGS = "QDI"  # Default setting value information inquiry
 CMD_STATUS = "QPIGS"  # Device general status parameters inquiry
-CMD_TIME = "QT"  # Time inquiry
-CMD_TOTAL_LOAD = "QLT"  # Query total output load energy
-CMD_TOTAL_PV = "QET"  # Query total PV generated energy
 CMD_WARNINGS = "QPIWS"  # Device warning status inquiry
 
 # Used by unpackers
@@ -29,7 +18,7 @@ BATTERY_TYPES = [
     "agm",
     "flooded",
     "user",
-    "pylon",
+    "pylontech",
     "weco",
     "soltaro",
     "lib",
@@ -99,9 +88,9 @@ OUTPUT_MODES = [
     "phase-2-of-2-180-deg",
 ]
 OUTPUT_SOURCE_PRIORITIES = [
-    "utility-solar-bat",
-    "solar-utility-bat",
-    "solar-bat-utility",
+    "utility-solar-battery",
+    "solar-utility-battery",
+    "solar-battery-utility",
 ]
 TOPOLOGIES = [
     "transformerless",
