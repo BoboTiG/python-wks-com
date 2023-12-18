@@ -3,15 +3,19 @@ This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-inverter-com
 """
 # Commands
-CMD_DAILY_LOAD = "QLD"  # Query daily output load energy
-CMD_DAILY_PV = "QED"  # Query daily PV generated energy
+CMD_DAILY_LOAD = "QLD"  # Query daily output load energy, in W/h
+CMD_DAILY_PV = "QED"  # Query daily PV generated energy, in W/h
 CMD_METRICS = "QPGS0"  # Parallel information inquiry
 CMD_MODEL = "QMN"  # Query model name
-CMD_Q1 = "Q1"  # "The Q1 command", thanks to the documentation
+CMD_MONTHLY_LOAD = "QLM"  # Query monthly output load energy, in W/h
+CMD_MONTHLY_PV = "QEM"  # Query monthly PV generated energy, in W/h
+CMD_Q1 = "Q1"  # "The Q1 command", thanks to the documentation ...
 CMD_RATINGS = "QPIRI"  # Device rating information inquiry
 CMD_SERIAL_NO = "QID"  # Device serial number inquiry
 CMD_STATUS = "QPIGS"  # Device general status parameters inquiry
 CMD_WARNINGS = "QPIWS"  # Device warning status inquiry
+CMD_YEARLY_LOAD = "QLY"  # Query yearly output load energy, in W/h
+CMD_YEARLY_PV = "QEY"  # Query yearly PV generated energy, in W/h
 
 # Used by unpackers
 BATTERY_TYPES = [

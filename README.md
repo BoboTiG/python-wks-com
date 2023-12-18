@@ -59,13 +59,17 @@ You can send any commands as defined in the official documentation, and even unk
 
 There are also aliases you could use:
 
-- `daily-load` for the `QLD` command;
-- `daily-pv` for the `QED` command;
+- `daily-load` for the `QLD` command (it will automatically fill the date using the current time);
+- `daily-pv` for the `QED` command (it will automatically fill the date using the current time);
 - `metrics` for the `QPGS0` command;
+- `monthly-load` for the `QLM` command (it will automatically fill the date using the current time);
+- `monthly-pv` for the `QEM` command (it will automatically fill the date using the current time);
 - `ratings` for the `QPIRI` command;
 - `serial-no` for the `QID` command;
 - `status` for the `QPIGS` command;
 - `warnings` for the `QPIWS` command;
+- `yearly-load` for the `QLY` command (it will automatically fill the date using the current time);
+- `yearly-pv` for the `QEY` command (it will automatically fill the date using the current time);
 
 When the inverter does not understand a command, it will return the `NAK` keyword.
 

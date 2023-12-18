@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 import serial
 
 from inverter_com.constants import CMD_METRICS, CMD_MODEL, CMD_SERIAL_NO
-from inverter_com.helpers import compute_crc, extract_response, retry
+from inverter_com.helpers import compute_crc, expand_command, extract_response, retry
 from inverter_com.types import Result
 from inverter_com.unpackers import unpack
 
@@ -65,7 +65,7 @@ class Inverter:
         return self.decode(command, self.read())
 
     def write(self, command: str) -> bool:
-        full_command = command + compute_crc(command) + "\r"
+        full_command = f"{expand_command(command)}{compute_crc(command)}\r"
         log.debug(f"{self._conn.port} > SEND {full_command!r}")
         res = self._conn.write(serial.to_bytes(ord(c) for c in full_command))
         log.debug(f"{self._conn.port} > WRITTEN {res!r} chars ({'OK' if res == len(full_command) else 'ERROR'})")

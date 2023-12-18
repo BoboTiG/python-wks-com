@@ -3,10 +3,12 @@ This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-inverter-com
 """
 import logging
+from datetime import datetime
 from typing import TYPE_CHECKING, Callable
 
 from serial import SerialException
 
+from inverter_com import constants
 from inverter_com.types import Result
 
 if TYPE_CHECKING:  # pragma: nocover
@@ -28,6 +30,61 @@ def compute_crc(value: str) -> str:
             crc = crc << 1 if (crc & 0x8000) == 0 else (crc << 1) ^ 0x1021
         crc &= 0xFFFF
     return crc.to_bytes(2, "big").decode(encoding="latin1")
+
+
+def expand_command(command: str) -> str:
+    """
+    >>> expand_command("QPGS0")
+    'QPGS0'
+
+    >>> command = expand_command("QED")
+    >>> command.startswith("QED")
+    True
+    >>> len(command) == len("QEDyyyymmdd")
+    True
+
+    >>> command = expand_command("QEM")
+    >>> command.startswith("QEM")
+    True
+    >>> len(command) == len("QEMyyyymm")
+    True
+
+    >>> command = expand_command("QEY")
+    >>> command.startswith("QEY")
+    True
+    >>> len(command) == len("QEYyyyy")
+    True
+
+    >>> command = expand_command("QLD")
+    >>> command.startswith("QLD")
+    True
+    >>> len(command) == len("QLDyyyymmdd")
+    True
+
+    >>> command = expand_command("QLM")
+    >>> command.startswith("QLM")
+    True
+    >>> len(command) == len("QLMyyyymm")
+    True
+
+    >>> command = expand_command("QLY")
+    >>> command.startswith("QLY")
+    True
+    >>> len(command) == len("QLYyyyy")
+    True
+    """
+    match command:
+        case constants.CMD_DAILY_LOAD | constants.CMD_DAILY_PV:
+            now = datetime.now()
+            return f"{command}{now.year}{now.month}{now.day}"
+        case constants.CMD_MONTHLY_LOAD | constants.CMD_MONTHLY_PV:
+            now = datetime.now()
+            return f"{command}{now.year}{now.month}"
+        case constants.CMD_YEARLY_LOAD | constants.CMD_YEARLY_PV:
+            now = datetime.now()
+            return f"{command}{now.year}"
+        case _:
+            return command
 
 
 def extract_response(seq: bytes) -> str:
