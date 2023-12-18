@@ -5,6 +5,7 @@ Source: https://github.com/BoboTiG/python-inverter-com
 import logging
 from datetime import datetime
 from typing import TYPE_CHECKING, Callable
+from zoneinfo import ZoneInfo
 
 from serial import SerialException
 
@@ -75,13 +76,13 @@ def expand_command(command: str) -> str:
     """
     match command:
         case constants.CMD_DAILY_LOAD | constants.CMD_DAILY_PV:
-            now = datetime.now()
+            now = datetime.now(tz=ZoneInfo(constants.TIMEZONE))
             return f"{command}{now.year}{now.month}{now.day}"
         case constants.CMD_MONTHLY_LOAD | constants.CMD_MONTHLY_PV:
-            now = datetime.now()
+            now = datetime.now(tz=ZoneInfo(constants.TIMEZONE))
             return f"{command}{now.year}{now.month}"
         case constants.CMD_YEARLY_LOAD | constants.CMD_YEARLY_PV:
-            now = datetime.now()
+            now = datetime.now(tz=ZoneInfo(constants.TIMEZONE))
             return f"{command}{now.year}"
         case _:
             return command

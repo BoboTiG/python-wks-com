@@ -2,6 +2,9 @@
 This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-inverter-com
 """
+# Timezone to tweak some commands output
+TIMEZONE = "Europe/Paris"
+
 # Commands
 CMD_DAILY_LOAD = "QLD"  # Query daily output load energy, in W/h
 CMD_DAILY_PV = "QED"  # Query daily PV generated energy, in W/h
