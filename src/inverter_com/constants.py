@@ -13,6 +13,7 @@ CMD_Q1 = "Q1"  # "The Q1 command", thanks to the documentation ...
 CMD_RATINGS = "QPIRI"  # Device rating information inquiry
 CMD_SERIAL_NO = "QID"  # Device serial number inquiry
 CMD_STATUS = "QPIGS"  # Device general status parameters inquiry
+CMD_TIME = "QT"  # Time inquiry
 CMD_WARNINGS = "QPIWS"  # Device warning status inquiry
 CMD_YEARLY_LOAD = "QLY"  # Query yearly output load energy, in W/h
 CMD_YEARLY_PV = "QEY"  # Query yearly PV generated energy, in W/h

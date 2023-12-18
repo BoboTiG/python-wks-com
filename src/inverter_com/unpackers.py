@@ -333,6 +333,14 @@ class QPIWS(BaseModel):
         return self.warnings[index] == "1"
 
 
+class QT(BaseModel):
+    time: str
+
+    @field_validator("time")
+    def validate_time(cls, value: str) -> str:
+        return validators.time(value)
+
+
 # Unpack classes (going from a serial raw response to a managed Python object)
 UNPACKERS: dict[str, BaseModel] = {
     constants.CMD_METRICS: QPGS0,
@@ -341,6 +349,7 @@ UNPACKERS: dict[str, BaseModel] = {
     constants.CMD_STATUS: QPIGS,
     constants.CMD_DAILY_LOAD: QLD,
     constants.CMD_DAILY_PV: QED,
+    constants.CMD_TIME: QT,
     constants.CMD_WARNINGS: QPIWS,
 }
 

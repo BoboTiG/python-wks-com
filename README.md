@@ -67,11 +67,12 @@ There are also aliases you could use:
 - `ratings` for the `QPIRI` command;
 - `serial-no` for the `QID` command;
 - `status` for the `QPIGS` command;
+- `time` for the `QT` command;
 - `warnings` for the `QPIWS` command;
 - `yearly-load` for the `QLY` command (it will automatically fill the date using the current time);
 - `yearly-pv` for the `QEY` command (it will automatically fill the date using the current time);
 
-When the inverter does not understand a command, it will return the `NAK` keyword.
+When the inverter does not understand a command, it will respond with `NAK`.
 
 ## Development
 

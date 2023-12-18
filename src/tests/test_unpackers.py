@@ -171,3 +171,10 @@ def test_QPIWS() -> None:
         "pv_loss": False,
         "self_test_fail": False,
     }
+
+
+def test_QT() -> None:
+    seq = "20231210204150"
+    res = unpack(constants.CMD_TIME, seq)
+
+    assert res == {"time": "2023-12-10 20:41:50"}
