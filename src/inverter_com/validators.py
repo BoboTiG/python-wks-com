@@ -53,6 +53,20 @@ def input_voltage_range(value: str) -> str:
     return constants.INPUT_VOLTAGE_RANGES[int(value)]
 
 
+def inverter_charge_status(value: str) -> str:
+    """
+    >>> inverter_charge_status("10")
+    'no-charging'
+    >>> inverter_charge_status("11")
+    'bulk-stage'
+    >>> inverter_charge_status("12")
+    'absorb'
+    >>> inverter_charge_status("13")
+    'float'
+    """
+    return constants.INVERTER_CHARGE_STATUS[value]
+
+
 def machine_type(value: str) -> str:
     """
     >>> machine_type("00")
@@ -101,6 +115,18 @@ def output_source_priority(value: str) -> str:
     'solar-battery-utility'
     """
     return constants.OUTPUT_SOURCE_PRIORITIES[int(value)]
+
+
+def parallel_mode(value: str) -> str:
+    """
+    >>> parallel_mode("0")
+    'new'
+    >>> parallel_mode("1")
+    'slave'
+    >>> parallel_mode("2")
+    'master'
+    """
+    return constants.PARALLEL_MODE[int(value)]
 
 
 def time(value: str) -> str:

@@ -20,7 +20,7 @@ class QPGS0(BaseModel):
     parallel_num: int
     serial_no: str
     work_mode: str
-    fault_code: int
+    fault_code: int = Field(exclude=True)
     grid_voltage: float
     grid_freq: float
     ac_output_voltage: float
@@ -36,7 +36,7 @@ class QPGS0(BaseModel):
     total_ac_output_apparent_power: int
     total_output_active_power: int
     total_ac_output_percent: int
-    inverter_status: str
+    inverter_status: str = Field(exclude=True)
     output_mode: str
     charger_source_priority: str
     max_charger_current: int
@@ -126,6 +126,34 @@ class QPGS0(BaseModel):
         }
 
 
+class Q1(BaseModel):
+    time_until_the_end_of_absorb_charging: int = Field(exclude=True)
+    time_until_the_end_of_float_charging: int = Field(exclude=True)
+    scc_ok: int = Field(exclude=True)
+    allow_scc_on: int = Field(exclude=True)
+    charge_average_current: int
+    scc_temperature: int
+    inverter_heatsink_temperature: int
+    battery_heatsink_temperature: int
+    transformer_temperature: int
+    parallel_mode: str
+    fan_locked: int = Field(exclude=True)
+    gpio13: int = Field(exclude=True)
+    fan_speed_percent: int
+    scc_charge_power: int
+    parallel_warning: str = Field(exclude=True)
+    sync_frequency: float = Field(exclude=True)
+    inverter_charge_status: str
+
+    @field_validator("parallel_mode")
+    def validate_parallel_mode(cls, value: str) -> str:
+        return validators.parallel_mode(value)
+
+    @field_validator("inverter_charge_status")
+    def validate_inverter_charge_status(cls, value: str) -> str:
+        return validators.inverter_charge_status(value)
+
+
 class QPIGS(BaseModel):
     grid_voltage: float
     grid_freq: float
@@ -138,12 +166,12 @@ class QPIGS(BaseModel):
     battery_voltage: float
     battery_charging_current: int
     battery_capacity: int
-    inverter_heat_sink_temperature: int
+    inverter_heatsink_temperature: int
     pv_input_current: float
     pv_input_voltage: float
     battery_voltage_from_scc: float
     battery_discharge_current: int
-    status: str
+    status: str = Field(exclude=True)
 
 
 class QPIRI(BaseModel):
@@ -203,7 +231,7 @@ class QPIRI(BaseModel):
 
 
 class QPIWS(BaseModel):
-    warnings: str = Field(exclude=True, title="warnings")
+    warnings: str = Field(exclude=True)
 
     @computed_field
     def pv_loss(self) -> bool:
@@ -290,7 +318,7 @@ class QPIWS(BaseModel):
         return self.check(21)
 
     @computed_field
-    def bat_open(self) -> bool:
+    def battery_open(self) -> bool:
         return self.check(22)
 
     @computed_field
@@ -308,7 +336,7 @@ class QPIWS(BaseModel):
 # Unpack classes (going from a serial raw response to a managed Python object)
 UNPACKERS: dict[str, BaseModel] = {
     constants.CMD_METRICS: QPGS0,
-    # constants.Q1: Q1,
+    constants.CMD_Q1: Q1,
     constants.CMD_RATINGS: QPIRI,
     constants.CMD_STATUS: QPIGS,
     constants.CMD_DAILY_LOAD: QLD,

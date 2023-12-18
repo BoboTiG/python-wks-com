@@ -6,7 +6,41 @@ from inverter_com import constants
 from inverter_com.unpackers import unpack
 
 
-def test_unpack_metrics() -> None:
+def test_Q1() -> None:
+    seq = (
+        "00001 00001 00 00 00 024 025 019 024 02 00 000 0033 0000"
+        " 0000 00.00 11 0 060 030 080 030 58.40 000 120 0 0000"
+    )
+    res = unpack(constants.CMD_Q1, seq)
+
+    assert res == {
+        "battery_heatsink_temperature": 19,
+        "charge_average_current": 0,
+        "fan_speed_percent": 33,
+        "inverter_charge_status": "bulk-stage",
+        "inverter_heatsink_temperature": 25,
+        "parallel_mode": "master",
+        "scc_charge_power": 0,
+        "scc_temperature": 24,
+        "transformer_temperature": 24,
+    }
+
+
+def test_QED() -> None:
+    seq = "00004820"
+    res = unpack(constants.CMD_DAILY_PV, seq)
+
+    assert res == {"pv_generated_energy_for_day": 4820}
+
+
+def test_QLD() -> None:
+    seq = "00007844"
+    res = unpack(constants.CMD_DAILY_LOAD, seq)
+
+    assert res == {"output_load_energy_for_day": 7844}
+
+
+def test_QPGS0() -> None:
     seq = (
         "0 96332309100452 L 00 227.7 50.01 227.7 50.01 1252 1245 022 00.8 "
         "000 000 330.7 000 01252 01245 022 11102010 0 1 060 120 030 00 000"
@@ -24,10 +58,8 @@ def test_unpack_metrics() -> None:
         "battery_voltage": 0.8,
         "charger_source_priority": "solar-first",
         "error": "ok",
-        "fault_code": 0,
         "grid_freq": 50.01,
         "grid_voltage": 227.7,
-        "inverter_status": "11102010",
         "load_percent": 22,
         "max_ac_charger_current": 30,
         "max_charger_current": 60,
@@ -52,7 +84,31 @@ def test_unpack_metrics() -> None:
     }
 
 
-def test_unpack_ratings() -> None:
+def test_QPIGS() -> None:
+    seq = "231.0 50.0 231.0 50.0 0831 0816 014 363 00.70 001 001 0021 00.1 119.8 00.10 00001 00010110 01 01 00013 010"
+    res = unpack(constants.CMD_STATUS, seq)
+
+    assert res == {
+        "ac_output_active_power": 816,
+        "ac_output_apparent_power": 831,
+        "ac_output_freq": 50.0,
+        "ac_output_voltage": 231.0,
+        "battery_capacity": 1,
+        "battery_charging_current": 1,
+        "battery_discharge_current": 1,
+        "battery_voltage": 0.7,
+        "battery_voltage_from_scc": 0.1,
+        "bus_voltage": 363,
+        "grid_freq": 50.0,
+        "grid_voltage": 231.0,
+        "inverter_heatsink_temperature": 21,
+        "output_overload_percent": 14,
+        "pv_input_current": 0.1,
+        "pv_input_voltage": 119.8,
+    }
+
+
+def test_QPIRI() -> None:
     seq = "230.0 24.3 230.0 50.0 24.3 5600 5600 48.0 46.0 42.0 56.4 54.0 3 030 060 0 2 1 9 00 0 0 54.0 0 1 000"
     res = unpack(constants.CMD_RATINGS, seq)
 
@@ -85,51 +141,12 @@ def test_unpack_ratings() -> None:
     }
 
 
-def test_unpack_status() -> None:
-    seq = "231.0 50.0 231.0 50.0 0831 0816 014 363 00.70 001 001 0021 00.1 119.8 00.10 00001 00010110 01 01 00013 010"
-    res = unpack(constants.CMD_STATUS, seq)
-
-    assert res == {
-        "ac_output_active_power": 816,
-        "ac_output_apparent_power": 831,
-        "ac_output_freq": 50.0,
-        "ac_output_voltage": 231.0,
-        "battery_capacity": 1,
-        "battery_charging_current": 1,
-        "battery_discharge_current": 1,
-        "battery_voltage": 0.7,
-        "battery_voltage_from_scc": 0.1,
-        "bus_voltage": 363,
-        "grid_freq": 50.0,
-        "grid_voltage": 231.0,
-        "inverter_heat_sink_temperature": 21,
-        "output_overload_percent": 14,
-        "pv_input_current": 0.1,
-        "pv_input_voltage": 119.8,
-        "status": "00010110",
-    }
-
-
-def test_unpack_daily_load() -> None:
-    seq = "00007844"
-    res = unpack(constants.CMD_DAILY_LOAD, seq)
-
-    assert res == {"output_load_energy_for_day": 7844}
-
-
-def test_unpack_daily_pv() -> None:
-    seq = "00004820"
-    res = unpack(constants.CMD_DAILY_PV, seq)
-
-    assert res == {"pv_generated_energy_for_day": 4820}
-
-
-def test_unpack_warnings() -> None:
+def test_QPIWS() -> None:
     seq = "000000000000000000000010000000010000"
     res = unpack(constants.CMD_WARNINGS, seq)
 
     assert res == {
-        "bat_open": True,
+        "battery_open": True,
         "battery_derating": False,
         "battery_low_alarm": False,
         "battery_under_shutdown": False,

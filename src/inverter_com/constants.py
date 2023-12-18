@@ -70,6 +70,12 @@ INPUT_VOLTAGE_RANGES = [
     "appliance",
     "ups",
 ]
+INVERTER_CHARGE_STATUS = {
+    "10": "no-charging",
+    "11": "bulk-stage",
+    "12": "absorb",
+    "13": "float",
+}
 MACHINE_TYPES = {
     "00": "grid-tie",
     "01": "off-grid",
@@ -91,6 +97,11 @@ OUTPUT_SOURCE_PRIORITIES = [
     "utility-solar-battery",
     "solar-utility-battery",
     "solar-battery-utility",
+]
+PARALLEL_MODE = [
+    "new",
+    "slave",
+    "master",
 ]
 TOPOLOGIES = [
     "transformerless",

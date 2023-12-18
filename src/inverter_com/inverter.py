@@ -44,6 +44,11 @@ class Inverter:
         self.model = self.model or str(self.send(CMD_MODEL))
         self.serial_no = self.serial_no or str(self.send(CMD_SERIAL_NO))
 
+    def decode(self, command: str, response: bytes) -> Result:
+        res = unpack(command, extract_response(response))
+        log.debug(f"{self._conn.port} < DECODED {res!r}")
+        return res
+
     def read(self) -> bytes:
         res = self._conn.read_until(expected=b"\r")
         log.debug(f"{self._conn.port} < RAW {res!r}")
@@ -53,9 +58,7 @@ class Inverter:
     @retry
     def send(self, command: str) -> Result:
         self.write(command)
-        res = unpack(command, extract_response(self.read()))
-        log.debug(f"{self._conn.port} < DECODED {res!r}")
-        return res
+        return self.decode(command, self.read())
 
     def write(self, command: str) -> bool:
         full_command = command + compute_crc(command) + "\r"
