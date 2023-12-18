@@ -16,7 +16,7 @@ You can use it to send commands to inverters, and see what data you can get from
 The usage is as follow:
 
 ```bash
-$ inverter-read COMMAND_OR_ALIAS [COMMAND_OR_ALIAS...] [--port SERIAL_PORT] [--debug]
+$ inverter-read [--port SERIAL_PORT] [--debug] COMMAND_OR_ALIAS [COMMAND_OR_ALIAS...]
 ```
 
 As an example, here is how to retrieve the inverter serial number:
@@ -38,7 +38,7 @@ $ inverter-read serial-no
 When enabling debug logs, it will likely show:
 
 ```log
-$ inverter-read serial-no --debug
+$ inverter-read --debug serial-no
 DEBUG:inverter_com.inverter:/dev/ttyUSB0 > SEND 'QIDÖê\r'
 DEBUG:inverter_com.inverter:/dev/ttyUSB0 > WRITTEN 6 chars (OK)
 DEBUG:inverter_com.inverter:/dev/ttyUSB0 < RAW b'(96332309100452?\xf3\r'
@@ -49,7 +49,7 @@ DEBUG:inverter_com.inverter:/dev/ttyUSB0 < DECODED '96332309100452'
 The default port is `/dev/ttyUSB0`, you can change that:
 
 ```log
-$ inverter-read serial-no --port /dev/ttyAMA0
+$ inverter-read --port /dev/ttyAMA0 serial-no
 "96332309100452"
 ```
 
