@@ -62,36 +62,36 @@ class QPGS0(BaseModel):
     battery_discharge_current: int
 
     @computed_field
-    def is_ac_charging(self) -> bool:
-        return self.inverter_status[1] == "1"
+    def is_ac_charging(self) -> int:
+        return int(self.inverter_status[1])
 
     @computed_field
-    def is_battery_over_voltage(self) -> bool:
-        return self.inverter_status[3] == "1"
+    def is_battery_over_voltage(self) -> int:
+        return int(self.inverter_status[3])
 
     @computed_field
-    def is_battery_under_voltage(self) -> bool:
-        return self.inverter_status[4] == "1"
+    def is_battery_under_voltage(self) -> int:
+        return int(self.inverter_status[4])
 
     @computed_field
-    def is_configuration_changed(self) -> bool:
-        return self.inverter_status[7] == "1"
+    def is_configuration_changed(self) -> int:
+        return int(self.inverter_status[7])
 
     @computed_field
-    def is_line_lost(self) -> bool:
-        return self.inverter_status[5] == "1"
+    def is_line_lost(self) -> int:
+        return int(self.inverter_status[5])
 
     @computed_field
-    def is_load_on(self) -> bool:
-        return self.inverter_status[6] == "1"
+    def is_load_on(self) -> int:
+        return int(self.inverter_status[6])
 
     @computed_field
-    def is_scc_charging(self) -> bool:
-        return self.inverter_status[2] == "1"
+    def is_scc_charging(self) -> int:
+        return int(self.inverter_status[2])
 
     @computed_field
-    def is_scc_ok(self) -> bool:
-        return self.inverter_status[0] == "1"
+    def is_scc_ok(self) -> int:
+        return int(self.inverter_status[0])
 
     @field_validator("charger_source_priority")
     def validate_charger_source_priority(cls, value: str) -> str:
@@ -182,8 +182,8 @@ class QPIRI(BaseModel):
     topology: str
     output_mode: str
     batter_redischarge_voltage: float
-    pv_ok_condition: bool
-    pv_power_balance: bool
+    pv_ok_condition: int
+    pv_power_balance: int
 
     @field_validator("battery_type")
     def validate_battery_type(cls, value: str) -> str:
@@ -218,103 +218,103 @@ class QPIWS(BaseModel):
     warnings: str = Field(exclude=True)
 
     @computed_field
-    def pv_loss_warning(self) -> bool:
+    def pv_loss_warning(self) -> int:
         return self.check(0)
 
     @computed_field
-    def inverter_fault(self) -> bool:
+    def inverter_fault(self) -> int:
         return self.check(1)
 
     @computed_field
-    def bus_over_fault(self) -> bool:
+    def bus_over_fault(self) -> int:
         return self.check(2)
 
     @computed_field
-    def bus_under_fault(self) -> bool:
+    def bus_under_fault(self) -> int:
         return self.check(3)
 
     @computed_field
-    def bus_soft_fail_fault(self) -> bool:
+    def bus_soft_fail_fault(self) -> int:
         return self.check(4)
 
     @computed_field
-    def line_fail_warning(self) -> bool:
+    def line_fail_warning(self) -> int:
         return self.check(5)
 
     @computed_field
-    def opv_short_warning(self) -> bool:
+    def opv_short_warning(self) -> int:
         return self.check(6)
 
     @computed_field
-    def inverter_voltage_too_low_fault(self) -> bool:
+    def inverter_voltage_too_low_fault(self) -> int:
         return self.check(7)
 
     @computed_field
-    def inverter_voltage_too_high_fault(self) -> bool:
+    def inverter_voltage_too_high_fault(self) -> int:
         return self.check(8)
 
     @computed_field
-    def over_temperature_fault(self) -> bool:
+    def over_temperature_fault(self) -> int:
         return self.check(9)
 
     @computed_field
-    def fan_locked_fault(self) -> bool:
+    def fan_locked_fault(self) -> int:
         return self.check(10)
 
     @computed_field
-    def battery_voltage_high_fault(self) -> bool:
+    def battery_voltage_high_fault(self) -> int:
         return self.check(11)
 
     @computed_field
-    def battery_low_alarm_warning(self) -> bool:
+    def battery_low_alarm_warning(self) -> int:
         return self.check(12)
 
     @computed_field
-    def battery_under_shutdown_warning(self) -> bool:
+    def battery_under_shutdown_warning(self) -> int:
         return self.check(14)
 
     @computed_field
-    def battery_derating_warning(self) -> bool:
+    def battery_derating_warning(self) -> int:
         return self.check(15)
 
     @computed_field
-    def overload_fault(self) -> bool:
+    def overload_fault(self) -> int:
         return self.check(16)
 
     @computed_field
-    def eeprom_fault(self) -> bool:
+    def eeprom_fault(self) -> int:
         return self.check(17)
 
     @computed_field
-    def inverter_over_current_fault(self) -> bool:
+    def inverter_over_current_fault(self) -> int:
         return self.check(18)
 
     @computed_field
-    def inverter_soft_fail_fault(self) -> bool:
+    def inverter_soft_fail_fault(self) -> int:
         return self.check(19)
 
     @computed_field
-    def self_test_fail_fault(self) -> bool:
+    def self_test_fail_fault(self) -> int:
         return self.check(20)
 
     @computed_field
-    def op_dc_voltage_over_fault(self) -> bool:
+    def op_dc_voltage_over_fault(self) -> int:
         return self.check(21)
 
     @computed_field
-    def battery_open_fault(self) -> bool:
+    def battery_open_fault(self) -> int:
         return self.check(22)
 
     @computed_field
-    def current_sensor_fail_fault(self) -> bool:
+    def current_sensor_fail_fault(self) -> int:
         return self.check(23)
 
     @computed_field
-    def battery_short_fault(self) -> bool:
+    def battery_short_fault(self) -> int:
         return self.check(31)
 
-    def check(self, index: int) -> bool:
-        return self.warnings[index] == "1"
+    def check(self, index: int) -> int:
+        return int(self.warnings[index])
 
 
 class QT(BaseModel):
