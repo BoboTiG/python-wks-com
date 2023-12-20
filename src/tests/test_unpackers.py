@@ -14,11 +14,11 @@ def test_Q1() -> None:
     res = unpack(constants.CMD_Q1, seq)
 
     assert res == {
-        "battery_heatsink_temperature": 19,
+        "battery_heat_sink_temperature": 19,
         "charge_average_current": 0,
         "fan_speed_percent": 33,
         "inverter_charge_status": "bulk-stage",
-        "inverter_heatsink_temperature": 25,
+        "inverter_heat_sink_temperature": 25,
         "parallel_mode": "master",
         "scc_charge_power": 0,
         "scc_temperature": 24,
@@ -76,6 +76,8 @@ def test_QPGS0() -> None:
     res = unpack(constants.CMD_METRICS, seq)
 
     assert res == {
+        "ac_input_frequency": 50.01,
+        "ac_input_voltage": 227.7,
         "ac_output_active_power": 1245,
         "ac_output_apparent_power": 1252,
         "ac_output_frequency": 50.01,
@@ -86,8 +88,6 @@ def test_QPGS0() -> None:
         "battery_voltage": 0.8,
         "charger_source_priority": "Solar first",
         "fault_code": "No fault",
-        "grid_frequency": 50.01,
-        "grid_voltage": 227.7,
         "is_ac_charging": True,
         "is_battery_over_voltage": False,
         "is_battery_under_voltage": False,
@@ -102,7 +102,7 @@ def test_QPGS0() -> None:
         "max_charger_range": 120,
         "output_mode": "single machine",
         "parallel_instance_number": 0,
-        "pv1_input_current": 0,
+        "pv1_input_current": 0.0,
         "pv1_input_voltage": 330.7,
         "serial_number": "96332309100452",
         "total_ac_output_apparent_power": 1252,
@@ -142,6 +142,8 @@ def test_QPIRI() -> None:
     res = unpack(constants.CMD_RATINGS, seq)
 
     assert res == {
+        "ac_input_rating_current": 24.3,
+        "ac_input_rating_voltage": 230.0,
         "ac_output_rating_active_power": 5600,
         "ac_output_rating_apparent_power": 5600,
         "ac_output_rating_current": 24.3,
@@ -155,8 +157,6 @@ def test_QPIRI() -> None:
         "battery_type": "Pylontech",
         "battery_under_voltage": 42.0,
         "charger_source_priority": "Solar first",
-        "grid_rating_current": 24.3,
-        "grid_rating_voltage": 230.0,
         "input_voltage_range": "appliance",
         "machine_type": "Grid tie",
         "max_ac_charging_current": 30,

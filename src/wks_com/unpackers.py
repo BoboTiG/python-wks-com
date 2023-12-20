@@ -37,8 +37,8 @@ class QPGS0(BaseModel):
     serial_number: str
     work_mode: str
     fault_code: str
-    grid_voltage: float
-    grid_frequency: float
+    ac_input_voltage: float
+    ac_input_frequency: float
     ac_output_voltage: float
     ac_output_frequency: float
     ac_output_apparent_power: int
@@ -58,7 +58,7 @@ class QPGS0(BaseModel):
     max_charger_current: int
     max_charger_range: int
     max_ac_charger_current: int
-    pv1_input_current: int
+    pv1_input_current: float  # Fix to align with QPIGS.pv1_input_current
     battery_discharge_current: int
 
     @computed_field
@@ -117,8 +117,8 @@ class Q1(BaseModel):
     allow_scc_on: int = Field(exclude=True)
     charge_average_current: int
     scc_temperature: int
-    inverter_heatsink_temperature: int
-    battery_heatsink_temperature: int
+    inverter_heat_sink_temperature: int
+    battery_heat_sink_temperature: int
     transformer_temperature: int
     parallel_mode: str
     fan_lock_status: int = Field(exclude=True)
@@ -159,8 +159,8 @@ class QPIGS(BaseModel):
 
 
 class QPIRI(BaseModel):
-    grid_rating_voltage: float
-    grid_rating_current: float
+    ac_input_rating_voltage: float
+    ac_input_rating_current: float
     ac_output_rating_voltage: float
     ac_output_rating_frequency: float
     ac_output_rating_current: float
