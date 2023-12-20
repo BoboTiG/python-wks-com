@@ -1,10 +1,10 @@
 """
 This is part of the inverter COM Python's module.
-Source: https://github.com/BoboTiG/python-inverter-com
+Source: https://github.com/BoboTiG/python-wks-com
 """
 from datetime import datetime
 
-from inverter_com import constants
+from wks_com import constants
 
 
 def battery_type(value: str) -> str:

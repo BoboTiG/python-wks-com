@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "inverter-com"
+name = "wks-com"
 description = "Communicate with your inverter (WKS EKO Circle)."
 readme = "README.md"
 requires-python = ">= 3.10"
@@ -45,15 +45,15 @@ dependencies = [
 dynamic = ["version"]
 
 [project.urls]
-Homepage = "https://github.com/BoboTiG/python-inverter-com"
-Changelog = "https://github.com/BoboTiG/python-inverter-com/blob/main/CHANGELOG.md"
-Source = "https://github.com/BoboTiG/python-inverter-com"
+Homepage = "https://github.com/BoboTiG/python-wks-com"
+Changelog = "https://github.com/BoboTiG/python-wks-com/blob/main/CHANGELOG.md"
+Source = "https://github.com/BoboTiG/python-wks-com"
 Sponsor = "https://github.com/sponsors/BoboTiG"
-Tracker = "https://github.com/BoboTiG/python-inverter-com/issues"
-"Released Versions" = "https://github.com/BoboTiG/python-inverter-com/releases"
+Tracker = "https://github.com/BoboTiG/python-wks-com/issues"
+"Released Versions" = "https://github.com/BoboTiG/python-wks-com/releases"
 
 [project.scripts]
-inverter-read = "inverter_com.__main__:read"
+wks-read = "wks_com.__main__:read"
 
 [project.optional-dependencies]
 dev = [
@@ -67,7 +67,7 @@ dev = [
 ]
 
 [tool.hatch.version]
-path = "src/inverter_com/__init__.py"
+path = "src/wks_com/__init__.py"
 
 [tool.hatch.build]
 skip-excluded-dirs = true
@@ -80,7 +80,7 @@ only-include = [
 
 [tool.hatch.build.targets.wheel]
 packages = [
-  "src/inverter_com",
+  "src/wks_com",
 ]
 
 [tool.black]
@@ -119,7 +119,7 @@ strict_equality = true
 pythonpath = "src"
 addopts = """
     --cov-report=term-missing:skip-covered
-    --cov=src/inverter_com
+    --cov=src/wks_com
     --strict-markers
     -r fE
     -vvv

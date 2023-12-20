@@ -5,10 +5,10 @@ using ctypes.
 This module is maintained by Mickaël Schoentgen <contact@tiger-222.fr>.
 
 You can always get the latest version of this module at:
-    https://github.com/BoboTiG/python-inverter-com
+    https://github.com/BoboTiG/python-wks-com
 If that URL should fail, try contacting the author.
 """
-from inverter_com.inverter import Inverter
+from wks_com.inverter import Inverter
 
 __version__ = "1.0.0"
 __author__ = "Mickaël 'Tiger-222' Schoentgen"

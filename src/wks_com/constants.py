@@ -1,6 +1,6 @@
 """
 This is part of the inverter COM Python's module.
-Source: https://github.com/BoboTiG/python-inverter-com
+Source: https://github.com/BoboTiG/python-wks-com
 """
 # Timezone to tweak some commands output
 TIMEZONE = "Europe/Paris"

@@ -1,9 +1,9 @@
 """
 This is part of the inverter COM Python's module.
-Source: https://github.com/BoboTiG/python-inverter-com
+Source: https://github.com/BoboTiG/python-wks-com
 """
-from inverter_com import constants
-from inverter_com.unpackers import unpack
+from wks_com import constants
+from wks_com.unpackers import unpack
 
 
 def test_Q1() -> None:

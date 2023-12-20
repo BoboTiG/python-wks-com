@@ -1,6 +1,6 @@
 """
 This is part of the inverter COM Python's module.
-Source: https://github.com/BoboTiG/python-inverter-com
+Source: https://github.com/BoboTiG/python-wks-com
 """
 import logging
 from datetime import datetime
@@ -9,11 +9,11 @@ from zoneinfo import ZoneInfo
 
 from serial import SerialException
 
-from inverter_com import constants
-from inverter_com.types import Result
+from wks_com import constants
+from wks_com.types import Result
 
 if TYPE_CHECKING:  # pragma: nocover
-    from inverter_com.inverter import Inverter
+    from wks_com.inverter import Inverter
 
 
 log = logging.getLogger(__file__)
@@ -118,7 +118,7 @@ def retry(func: Callable[["Inverter", str], Result]) -> Callable[["Inverter", st
 def test_commands(port: str, *commands: str, debug: bool = False) -> None:
     import json
 
-    from inverter_com import Inverter, constants
+    from wks_com import Inverter, constants
 
     if debug:  # pragma: nocover
         import logging

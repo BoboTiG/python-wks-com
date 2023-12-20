@@ -1,11 +1,11 @@
 """
 This is part of the inverter COM Python's module.
-Source: https://github.com/BoboTiG/python-inverter-com
+Source: https://github.com/BoboTiG/python-wks-com
 """
 from pydantic import BaseModel, Field, computed_field, field_validator
 
-from inverter_com import constants, validators
-from inverter_com.types import Result
+from wks_com import constants, validators
+from wks_com.types import Result
 
 
 class QED(BaseModel):

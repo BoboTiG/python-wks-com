@@ -1,16 +1,16 @@
 """
 This is part of the inverter COM Python's module.
-Source: https://github.com/BoboTiG/python-inverter-com
+Source: https://github.com/BoboTiG/python-wks-com
 """
 import logging
 from dataclasses import dataclass, field
 
 import serial
 
-from inverter_com.constants import CMD_METRICS, CMD_MODEL, CMD_SERIAL_NO
-from inverter_com.helpers import compute_crc, expand_command, extract_response, retry
-from inverter_com.types import Result
-from inverter_com.unpackers import unpack
+from wks_com.constants import CMD_METRICS, CMD_MODEL, CMD_SERIAL_NO
+from wks_com.helpers import compute_crc, expand_command, extract_response, retry
+from wks_com.types import Result
+from wks_com.unpackers import unpack
 
 log = logging.getLogger(__name__)
 

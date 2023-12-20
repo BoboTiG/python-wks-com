@@ -5,51 +5,51 @@ Python module to communicate with WKS EKO Circle inverters.
 ## Installation
 
 ```bash
-$ python -m pip install inverter-com
+$ python -m pip install wks-com
 ```
 
 ## Utility
 
-When installing the module, the `inverter-read` program is made available.
+When installing the module, the `wks-read` program is made available.
 You can use it to send commands to inverters, and see what data you can get from.
 
 The usage is as follow:
 
 ```bash
-$ inverter-read [--port SERIAL_PORT] [--debug] COMMAND_OR_ALIAS [COMMAND_OR_ALIAS...]
+$ wks-read [--port SERIAL_PORT] [--debug] COMMAND_OR_ALIAS [COMMAND_OR_ALIAS...]
 ```
 
 As an example, here is how to retrieve the inverter serial number:
 
 ```bash
-$ inverter-read QID
+$ wks-read QID
 
 # The same command with an alias:
-$ inverter-read serial-no
+$ wks-read serial-no
 ```
 
 The output will be something like that:
 
 ```log
-$ inverter-read serial-no
+$ wks-read serial-no
 "96332309100452"
 ```
 
 When enabling debug logs, it will likely show:
 
 ```log
-$ inverter-read --debug serial-no
-DEBUG:inverter_com.inverter:/dev/ttyUSB0 > SEND 'QIDÖê\r'
-DEBUG:inverter_com.inverter:/dev/ttyUSB0 > WRITTEN 6 chars (OK)
-DEBUG:inverter_com.inverter:/dev/ttyUSB0 < RAW b'(96332309100452?\xf3\r'
-DEBUG:inverter_com.inverter:/dev/ttyUSB0 < DECODED '96332309100452'
+$ wks-read --debug serial-no
+DEBUG:wks_com.inverter:/dev/ttyUSB0 > SEND 'QIDÖê\r'
+DEBUG:wks_com.inverter:/dev/ttyUSB0 > WRITTEN 6 chars (OK)
+DEBUG:wks_com.inverter:/dev/ttyUSB0 < RAW b'(96332309100452?\xf3\r'
+DEBUG:wks_com.inverter:/dev/ttyUSB0 < DECODED '96332309100452'
 "96332309100452"
 ```
 
 The default port is `/dev/ttyUSB0`, you can change that:
 
 ```log
-$ inverter-read --port /dev/ttyAMA0 serial-no
+$ wks-read --port /dev/ttyAMA0 serial-no
 "96332309100452"
 ```
 

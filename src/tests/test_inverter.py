@@ -1,6 +1,6 @@
 """
 This is part of the inverter COM Python's module.
-Source: https://github.com/BoboTiG/python-inverter-com
+Source: https://github.com/BoboTiG/python-wks-com
 """
 import logging
 from unittest.mock import patch
@@ -8,8 +8,8 @@ from unittest.mock import patch
 import pytest
 from serial import SerialException
 
-from inverter_com import constants
-from inverter_com.inverter import Inverter
+from wks_com import constants
+from wks_com.inverter import Inverter
 
 
 def read_until(expected: str = "") -> bytes:

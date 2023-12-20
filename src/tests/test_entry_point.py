@@ -1,16 +1,16 @@
 """
 This is part of the inverter COM Python's module.
-Source: https://github.com/BoboTiG/python-inverter-com
+Source: https://github.com/BoboTiG/python-wks-com
 """
 from unittest.mock import patch
 
-from inverter_com import __main__
+from wks_com import __main__
 
 
 def test_read_single_command(port: str) -> None:
     with (
-        patch("sys.argv", ["inverter-read", "cmd", "--port", port]),
-        patch("inverter_com.inverter.Inverter.send") as mocked,
+        patch("sys.argv", ["wks-read", "cmd", "--port", port]),
+        patch("wks_com.inverter.Inverter.send") as mocked,
     ):
         mocked.return_value = {"foo": 42}
         assert __main__.read() == 0
@@ -20,8 +20,8 @@ def test_read_single_command(port: str) -> None:
 
 def test_read_multiple_commands(port: str) -> None:
     with (
-        patch("sys.argv", ["inverter-read", "cmd1", "cmd2", "--port", port]),
-        patch("inverter_com.inverter.Inverter.send") as mocked,
+        patch("sys.argv", ["wks-read", "cmd1", "cmd2", "--port", port]),
+        patch("wks_com.inverter.Inverter.send") as mocked,
     ):
         mocked.return_value = {"foo": 42}
         assert __main__.read() == 0
