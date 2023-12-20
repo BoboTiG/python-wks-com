@@ -49,7 +49,7 @@ class Inverter:
         elif command == CMD_SERIAL_NO:
             self.serial_no = res  # type: ignore[assignment]
         elif command == CMD_METRICS:
-            self.serial_no = res["serial_no"]  # type: ignore[assignment,index]
+            self.serial_no = res["serial_number"]  # type: ignore[assignment,index]
 
         return res
 

@@ -33,69 +33,73 @@ class QLY(BaseModel):
 
 
 class QPGS0(BaseModel):
-    parallel_num: int
-    serial_no: str
+    parallel_instance_number: int
+    serial_number: str
     work_mode: str
-    fault_code: int = Field(exclude=True)
+    fault_code: str
     grid_voltage: float
-    grid_freq: float
+    grid_frequency: float
     ac_output_voltage: float
-    ac_output_freq: float
+    ac_output_frequency: float
     ac_output_apparent_power: int
     ac_output_active_power: int
-    load_percent: int
+    load_percentage: int
     battery_voltage: float
     battery_charging_current: int
     battery_capacity: int
-    pv_input_voltage: float
+    pv1_input_voltage: float
     total_charging_current: int
     total_ac_output_apparent_power: int
     total_output_active_power: int
-    total_ac_output_percent: int
+    total_ac_output_percentage: int
     inverter_status: str = Field(exclude=True)
     output_mode: str
     charger_source_priority: str
     max_charger_current: int
     max_charger_range: int
     max_ac_charger_current: int
-    pv_input_current_for_battery: int
+    pv1_input_current: int
     battery_discharge_current: int
 
     @computed_field
-    def error(self) -> str:
-        return self.get_error(self.fault_code)
+    def is_ac_charging(self) -> bool:
+        return self.inverter_status[1] == "1"
 
     @computed_field
-    def status_ac_charging(self) -> bool:
-        return bool(self.get_status(self.inverter_status)["ac-charging"])
+    def is_battery_over_voltage(self) -> bool:
+        return self.inverter_status[3] == "1"
 
     @computed_field
-    def status_battery(self) -> str:
-        return str(self.get_status(self.inverter_status)["battery"])
+    def is_battery_under_voltage(self) -> bool:
+        return self.inverter_status[4] == "1"
 
     @computed_field
-    def status_conf_changed(self) -> bool:
-        return bool(self.get_status(self.inverter_status)["conf-changed"])
+    def is_configuration_changed(self) -> bool:
+        return self.inverter_status[7] == "1"
 
     @computed_field
-    def status_line(self) -> str:
-        return str(self.get_status(self.inverter_status)["line"])
+    def is_line_lost(self) -> bool:
+        return self.inverter_status[5] == "1"
 
     @computed_field
-    def status_load(self) -> bool:
-        return bool(self.get_status(self.inverter_status)["load"])
+    def is_load_on(self) -> bool:
+        return self.inverter_status[6] == "1"
 
     @computed_field
-    def status_ssc(self) -> str:
-        return str(self.get_status(self.inverter_status)["ssc"])
+    def is_scc_charging(self) -> bool:
+        return self.inverter_status[2] == "1"
 
     @computed_field
-    def status_ssc_charging(self) -> bool:
-        return bool(self.get_status(self.inverter_status)["ssc-charging"])
+    def is_scc_ok(self) -> bool:
+        return self.inverter_status[0] == "1"
 
     @field_validator("charger_source_priority")
     def validate_charger_source_priority(cls, value: str) -> str:
         return validators.charger_source_priority(value)
+
+    @field_validator("fault_code")
+    def validate_fault_code(cls, value: str) -> str:
+        return validators.error(value)
 
     @field_validator("output_mode")
     def validate_output_mode(cls, value: str) -> str:
@@ -104,42 +108,6 @@ class QPGS0(BaseModel):
     @field_validator("work_mode")
     def validate_work_mode(cls, value: str) -> str:
         return validators.work_mode(value)
-
-    @staticmethod
-    def get_error(errno: int) -> str:
-        """
-        >>> QPGS0.get_error(0)
-        'ok'
-        >>> QPGS0.get_error(80)
-        'can-communication-failed'
-        >>> QPGS0.get_error(222)
-        'error-222'
-        """
-        return constants.ERRORS.get(errno, f"error-{errno}")
-
-    @staticmethod
-    def get_status(status: str) -> dict[str, str | bool]:
-        """
-        >>> QPGS0.get_status("00000000")
-        {'ssc': 'lost', 'ac-charging': False, 'ssc-charging': False, 'battery': 'normal', 'line': 'ok', 'load': False, 'conf-changed': False}
-        >>> QPGS0.get_status("11100111")
-        {'ssc': 'ok', 'ac-charging': True, 'ssc-charging': True, 'battery': 'normal', 'line': 'lost', 'load': True, 'conf-changed': True}
-        >>> QPGS0.get_status("00000000")["battery"]
-        'normal'
-        >>> QPGS0.get_status("00001000")["battery"]
-        'under'
-        >>> QPGS0.get_status("00002000")["battery"]
-        'open'
-        """  # noqa[E501]
-        return {
-            "ssc": "ok" if status[0] == "1" else "lost",
-            "ac-charging": bool(int(status[1])),
-            "ssc-charging": bool(int(status[2])),
-            "battery": constants.BATTERY_STATUSES[status[3:5]],
-            "line": "ok" if status[5] == "0" else "lost",
-            "load": bool(int(status[6])),
-            "conf-changed": bool(int(status[7])),
-        }
 
 
 class Q1(BaseModel):
@@ -153,7 +121,7 @@ class Q1(BaseModel):
     battery_heatsink_temperature: int
     transformer_temperature: int
     parallel_mode: str
-    fan_locked: int = Field(exclude=True)
+    fan_lock_status: int = Field(exclude=True)
     gpio13: int = Field(exclude=True)
     fan_speed_percent: int
     scc_charge_power: int
@@ -171,50 +139,50 @@ class Q1(BaseModel):
 
 
 class QPIGS(BaseModel):
-    grid_voltage: float
-    grid_freq: float
+    ac_input_voltage: float
+    ac_input_frequency: float
     ac_output_voltage: float
-    ac_output_freq: float
+    ac_output_frequency: float
     ac_output_apparent_power: int
     ac_output_active_power: int
-    output_overload_percent: int
+    ac_load_percentage: int
     bus_voltage: int
     battery_voltage: float
     battery_charging_current: int
     battery_capacity: int
-    inverter_heatsink_temperature: int
-    pv_input_current: float
-    pv_input_voltage: float
+    inverter_heat_sink_temperature: int
+    pv1_input_current: float
+    pv1_input_voltage: float
     battery_voltage_from_scc: float
     battery_discharge_current: int
-    status: str = Field(exclude=True)
+    device_status: str = Field(exclude=True)
 
 
 class QPIRI(BaseModel):
     grid_rating_voltage: float
     grid_rating_current: float
     ac_output_rating_voltage: float
-    ac_output_rating_freq: float
+    ac_output_rating_frequency: float
     ac_output_rating_current: float
     ac_output_rating_apparent_power: int
     ac_output_rating_active_power: int
     battery_rating_voltage: float
     battery_recharge_voltage: float
     battery_under_voltage: float
-    battery_bulk_voltage: float
-    battery_float_voltage: float
+    battery_bulk_charge_voltage: float
+    battery_float_charge_voltage: float
     battery_type: str
     max_ac_charging_current: int
     max_charging_current: int
     input_voltage_range: str
     output_source_priority: str
     charger_source_priority: str
-    parallel_max_num: int
+    max_parallel_units: int
     machine_type: str
     topology: str
     output_mode: str
     batter_redischarge_voltage: float
-    pv_ok_condition_for_parallel: bool
+    pv_ok_condition: bool
     pv_power_balance: bool
 
     @field_validator("battery_type")
@@ -250,7 +218,7 @@ class QPIWS(BaseModel):
     warnings: str = Field(exclude=True)
 
     @computed_field
-    def pv_loss(self) -> bool:
+    def pv_loss_warning(self) -> bool:
         return self.check(0)
 
     @computed_field
@@ -258,59 +226,59 @@ class QPIWS(BaseModel):
         return self.check(1)
 
     @computed_field
-    def bus_over(self) -> bool:
+    def bus_over_fault(self) -> bool:
         return self.check(2)
 
     @computed_field
-    def bus_under(self) -> bool:
+    def bus_under_fault(self) -> bool:
         return self.check(3)
 
     @computed_field
-    def bus_soft_fail(self) -> bool:
+    def bus_soft_fail_fault(self) -> bool:
         return self.check(4)
 
     @computed_field
-    def line_fail(self) -> bool:
+    def line_fail_warning(self) -> bool:
         return self.check(5)
 
     @computed_field
-    def opvshort(self) -> bool:
+    def opv_short_warning(self) -> bool:
         return self.check(6)
 
     @computed_field
-    def inverter_voltage_too_low(self) -> bool:
+    def inverter_voltage_too_low_fault(self) -> bool:
         return self.check(7)
 
     @computed_field
-    def inverter_voltage_too_high(self) -> bool:
+    def inverter_voltage_too_high_fault(self) -> bool:
         return self.check(8)
 
     @computed_field
-    def over_temperature(self) -> bool:
+    def over_temperature_fault(self) -> bool:
         return self.check(9)
 
     @computed_field
-    def fan_locked(self) -> bool:
+    def fan_locked_fault(self) -> bool:
         return self.check(10)
 
     @computed_field
-    def battery_voltage_high(self) -> bool:
+    def battery_voltage_high_fault(self) -> bool:
         return self.check(11)
 
     @computed_field
-    def battery_low_alarm(self) -> bool:
+    def battery_low_alarm_warning(self) -> bool:
         return self.check(12)
 
     @computed_field
-    def battery_under_shutdown(self) -> bool:
+    def battery_under_shutdown_warning(self) -> bool:
         return self.check(14)
 
     @computed_field
-    def battery_derating(self) -> bool:
+    def battery_derating_warning(self) -> bool:
         return self.check(15)
 
     @computed_field
-    def over_load(self) -> bool:
+    def overload_fault(self) -> bool:
         return self.check(16)
 
     @computed_field
@@ -318,31 +286,31 @@ class QPIWS(BaseModel):
         return self.check(17)
 
     @computed_field
-    def inverter_over_current(self) -> bool:
+    def inverter_over_current_fault(self) -> bool:
         return self.check(18)
 
     @computed_field
-    def inverter_soft_fail(self) -> bool:
+    def inverter_soft_fail_fault(self) -> bool:
         return self.check(19)
 
     @computed_field
-    def self_test_fail(self) -> bool:
+    def self_test_fail_fault(self) -> bool:
         return self.check(20)
 
     @computed_field
-    def op_dc_voltage_over(self) -> bool:
+    def op_dc_voltage_over_fault(self) -> bool:
         return self.check(21)
 
     @computed_field
-    def battery_open(self) -> bool:
+    def battery_open_fault(self) -> bool:
         return self.check(22)
 
     @computed_field
-    def current_sensor_fail(self) -> bool:
+    def current_sensor_fail_fault(self) -> bool:
         return self.check(23)
 
     @computed_field
-    def battery_week(self) -> bool:
+    def battery_short_fault(self) -> bool:
         return self.check(31)
 
     def check(self, index: int) -> bool:

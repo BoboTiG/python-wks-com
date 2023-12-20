@@ -10,21 +10,25 @@ from inverter_com import constants
 def battery_type(value: str) -> str:
     """
     >>> battery_type("0")
-    'agm'
+    'AGM'
     >>> battery_type("1")
-    'flooded'
+    'Flooded'
     >>> battery_type("2")
-    'user'
+    'User'
     >>> battery_type("3")
-    'pylontech'
+    'Pylontech'
     >>> battery_type("4")
-    'weco'
+    'Shinheung'
     >>> battery_type("5")
-    'soltaro'
+    'WECO'
     >>> battery_type("6")
-    'lib'
+    'Soltaro'
     >>> battery_type("7")
-    'lic'
+    'TBD'
+    >>> battery_type("8")
+    'LIb-protocol compatible'
+    >>> battery_type("9")
+    '3rd party Lithium'
     """
     return constants.BATTERY_TYPES[int(value)]
 
@@ -32,15 +36,27 @@ def battery_type(value: str) -> str:
 def charger_source_priority(value: str) -> str:
     """
     >>> charger_source_priority("0")
-    'utility-first'
+    'Utility first'
     >>> charger_source_priority("1")
-    'solar-first'
+    'Solar first'
     >>> charger_source_priority("2")
-    'solar-and-utility'
+    'Solar + Utility'
     >>> charger_source_priority("3")
-    'solar-only'
+    'Solar only'
     """
     return constants.CHARGER_SOURCE_PRIORITIES[int(value)]
+
+
+def error(value: str) -> str:
+    """
+    >>> error("00")
+    'No fault'
+    >>> error("80")
+    'CAN communication failed'
+    >>> error("222")
+    'error 222'
+    """
+    return constants.ERRORS.get(value, f"error {value}")
 
 
 def input_voltage_range(value: str) -> str:
@@ -70,15 +86,11 @@ def inverter_charge_status(value: str) -> str:
 def machine_type(value: str) -> str:
     """
     >>> machine_type("00")
-    'grid-tie'
+    'Grid tie'
     >>> machine_type("01")
-    'off-grid'
+    'Off Grid'
     >>> machine_type("10")
-    'hybrid'
-    >>> machine_type("11")
-    'off-grid-with-2-trackers'
-    >>> machine_type("20")
-    'off-grid-with-3-trackers'
+    'Hybrid'
     """
     return constants.MACHINE_TYPES[value]
 
@@ -86,21 +98,23 @@ def machine_type(value: str) -> str:
 def output_mode(value: str) -> str:
     """
     >>> output_mode("00")
-    'single'
+    'single machine'
     >>> output_mode("01")
-    'parallel'
+    'parallel output'
     >>> output_mode("02")
-    'phase-1-of-3'
+    'Phase 1 of 3 phase output'
     >>> output_mode("03")
-    'phase-2-of-3'
+    'Phase 2 of 3 phase output'
     >>> output_mode("04")
-    'phase-3-of-3'
+    'Phase 3 of 3 phase output'
     >>> output_mode("05")
-    'phase-1-of-2'
+    'Phase 1 of 2 phase output'
     >>> output_mode("06")
-    'phase-2-of-2-120-deg'
+    'Phase 2 of 2 phase output (120°)'
     >>> output_mode("07")
-    'phase-2-of-2-180-deg'
+    'Phase 2 of 2 phase output (180°)'
+    >>> output_mode("08")
+    'Unknown'
     """
     return constants.OUTPUT_MODES[int(value)]
 
@@ -108,11 +122,11 @@ def output_mode(value: str) -> str:
 def output_source_priority(value: str) -> str:
     """
     >>> output_source_priority("0")
-    'utility-solar-battery'
+    'Utility Solar Battery'
     >>> output_source_priority("1")
-    'solar-utility-battery'
+    'Solar Utility Battery'
     >>> output_source_priority("2")
-    'solar-battery-utility'
+    'Solar Battery Utility'
     """
     return constants.OUTPUT_SOURCE_PRIORITIES[int(value)]
 
@@ -150,16 +164,18 @@ def topology(value: str) -> str:
 def work_mode(value: str) -> str:
     """
     >>> work_mode("B")
-    'battery'
+    'Battery Mode'
+    >>> work_mode("D")
+    'Shutdown Mode'
     >>> work_mode("F")
-    'fault'
+    'Fault Mode'
     >>> work_mode("H")
-    'eco'
+    'Power Saving Mode'
     >>> work_mode("L")
-    'line'
+    'Line Mode'
     >>> work_mode("P")
-    'power-on'
+    'Power On Mode'
     >>> work_mode("S")
-    'stand-by'
+    'Standby Mode'
     """
     return constants.WORK_MODES[value]
