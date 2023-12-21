@@ -5,7 +5,7 @@ Python module to communicate with WKS EKO Circle inverters.
 ## Installation
 
 ```bash
-$ python -m pip install wks-com
+$ python -m pip install 'git+https://github.com/BoboTiG/python-wks-com.git@dbc7c507357260b3b649309ea4c660a2ae7e9869'
 ```
 
 ## Utility
