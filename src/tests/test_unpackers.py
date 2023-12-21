@@ -2,8 +2,14 @@
 This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-wks-com
 """
-from wks_com import constants
+from wks_com import constants, unpackers
 from wks_com.unpackers import unpack
+
+
+def check_types(unpacker: object, res: dict) -> None:
+    for field, metadata in unpacker.model_fields.items():
+        if not metadata.exclude:
+            assert isinstance(res[field], metadata.annotation)
 
 
 def test_Q1() -> None:
@@ -24,6 +30,7 @@ def test_Q1() -> None:
         "scc_temperature": 24,
         "transformer_temperature": 24,
     }
+    check_types(unpackers.Q1, res)
 
 
 def test_QED() -> None:
@@ -31,6 +38,7 @@ def test_QED() -> None:
     res = unpack(constants.CMD_DAILY_PV, seq)
 
     assert res == {"pv_generated_energy_for_day": 4820}
+    check_types(unpackers.QED, res)
 
 
 def test_QEM() -> None:
@@ -38,6 +46,7 @@ def test_QEM() -> None:
     res = unpack(constants.CMD_MONTHLY_PV, seq)
 
     assert res == {"pv_generated_energy_for_month": 4820}
+    check_types(unpackers.QEM, res)
 
 
 def test_QEY() -> None:
@@ -45,6 +54,7 @@ def test_QEY() -> None:
     res = unpack(constants.CMD_YEARLY_PV, seq)
 
     assert res == {"pv_generated_energy_for_year": 4820}
+    check_types(unpackers.QEY, res)
 
 
 def test_QLD() -> None:
@@ -52,6 +62,7 @@ def test_QLD() -> None:
     res = unpack(constants.CMD_DAILY_LOAD, seq)
 
     assert res == {"output_load_energy_for_day": 7844}
+    check_types(unpackers.QLD, res)
 
 
 def test_QLM() -> None:
@@ -59,6 +70,7 @@ def test_QLM() -> None:
     res = unpack(constants.CMD_MONTHLY_LOAD, seq)
 
     assert res == {"output_load_energy_for_month": 7844}
+    check_types(unpackers.QLM, res)
 
 
 def test_QLY() -> None:
@@ -66,6 +78,7 @@ def test_QLY() -> None:
     res = unpack(constants.CMD_YEARLY_LOAD, seq)
 
     assert res == {"output_load_energy_for_year": 7844}
+    check_types(unpackers.QLY, res)
 
 
 def test_QPGS0() -> None:
@@ -111,6 +124,7 @@ def test_QPGS0() -> None:
         "total_output_active_power": 1245,
         "work_mode": "Line Mode",
     }
+    check_types(unpackers.QPGS0, res)
 
 
 def test_QPIGS() -> None:
@@ -135,6 +149,7 @@ def test_QPIGS() -> None:
         "pv1_input_current": 0.1,
         "pv1_input_voltage": 119.8,
     }
+    check_types(unpackers.QPIGS, res)
 
 
 def test_QPIRI() -> None:
@@ -168,6 +183,7 @@ def test_QPIRI() -> None:
         "pv_power_balance": 1,
         "topology": "transformerless",
     }
+    check_types(unpackers.QPIRI, res)
 
 
 def test_QPIWS() -> None:
@@ -200,6 +216,7 @@ def test_QPIWS() -> None:
         "pv_loss_warning": 0,
         "self_test_fail_fault": 0,
     }
+    check_types(unpackers.QPIWS, res)
 
 
 def test_QT() -> None:
@@ -207,3 +224,4 @@ def test_QT() -> None:
     res = unpack(constants.CMD_TIME, seq)
 
     assert res == {"time": "2023-12-10 20:41:50"}
+    check_types(unpackers.QT, res)
