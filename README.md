@@ -68,6 +68,8 @@ There are also aliases you could use:
 - `serial-no` for the `QID` command;
 - `status` for the `QPIGS` command;
 - `time` for the `QT` command;
+- `total-load` for the `QLT` command;
+- `total-pv` for the `QET` command;
 - `warnings` for the `QPIWS` command;
 - `yearly-load` for the `QLY` command (it will automatically fill the date using the current time);
 - `yearly-pv` for the `QEY` command (it will automatically fill the date using the current time);

@@ -16,6 +16,10 @@ class QEM(BaseModel):
     pv_generated_energy_for_month: int
 
 
+class QET(BaseModel):
+    pv_generated_energy_total: int
+
+
 class QEY(BaseModel):
     pv_generated_energy_for_year: int
 
@@ -26,6 +30,10 @@ class QLD(BaseModel):
 
 class QLM(BaseModel):
     output_load_energy_for_month: int
+
+
+class QLT(BaseModel):
+    output_load_energy_total: int
 
 
 class QLY(BaseModel):
@@ -336,6 +344,8 @@ UNPACKERS: dict[str, BaseModel] = {
     constants.CMD_RATINGS: QPIRI,
     constants.CMD_STATUS: QPIGS,
     constants.CMD_TIME: QT,
+    constants.CMD_TOTAL_LOAD: QLT,
+    constants.CMD_TOTAL_PV: QET,
     constants.CMD_WARNINGS: QPIWS,
     constants.CMD_YEARLY_LOAD: QLY,
     constants.CMD_YEARLY_PV: QEY,

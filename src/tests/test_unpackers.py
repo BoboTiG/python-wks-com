@@ -49,6 +49,14 @@ def test_QEM() -> None:
     check_types(unpackers.QEM, res)
 
 
+def test_QET() -> None:
+    seq = "00004820"
+    res = unpack(constants.CMD_TOTAL_PV, seq)
+
+    assert res == {"pv_generated_energy_total": 4820}
+    check_types(unpackers.QET, res)
+
+
 def test_QEY() -> None:
     seq = "00004820"
     res = unpack(constants.CMD_YEARLY_PV, seq)
@@ -71,6 +79,14 @@ def test_QLM() -> None:
 
     assert res == {"output_load_energy_for_month": 7844}
     check_types(unpackers.QLM, res)
+
+
+def test_QLT() -> None:
+    seq = "00007844"
+    res = unpack(constants.CMD_TOTAL_LOAD, seq)
+
+    assert res == {"output_load_energy_total": 7844}
+    check_types(unpackers.QLT, res)
 
 
 def test_QLY() -> None:
