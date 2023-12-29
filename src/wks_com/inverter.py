@@ -26,6 +26,7 @@ class Inverter:
     reads: int = field(default=0, init=False)
     serial_no: str = ""
     stopbits: int = field(default=serial.STOPBITS_ONE, repr=False)
+    timeout: float | None = field(default=None, repr=False)
     writes: int = field(default=0, init=False)
 
     _conn: serial.Serial = field(init=False, repr=False)
@@ -38,6 +39,7 @@ class Inverter:
             port=self.port,
             stopbits=self.stopbits,
             exclusive=self.exclusive,
+            timeout=self.timeout,
         )
 
     def decode(self, command: str, response: bytes) -> Result:
