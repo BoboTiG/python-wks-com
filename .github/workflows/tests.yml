@@ -12,7 +12,8 @@ jobs:
         python:
           - "3.10"
           - "3.11"
-          - "3.x"
+          - "3.12"
+          - "3.13-dev"
 
     steps:
       - uses: actions/checkout@v4
