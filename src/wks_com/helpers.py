@@ -77,13 +77,13 @@ def expand_command(command: str) -> str:
     match command:
         case constants.CMD_DAILY_LOAD | constants.CMD_DAILY_PV:
             now = datetime.now(tz=ZoneInfo(constants.TIMEZONE))
-            return f"{command}{now.year}{now.month}{now.day}"
+            return f"{command}{now.strftime('%Y%m%d')}"
         case constants.CMD_MONTHLY_LOAD | constants.CMD_MONTHLY_PV:
             now = datetime.now(tz=ZoneInfo(constants.TIMEZONE))
-            return f"{command}{now.year}{now.month}"
+            return f"{command}{now.strftime('%Y%m')}"
         case constants.CMD_YEARLY_LOAD | constants.CMD_YEARLY_PV:
             now = datetime.now(tz=ZoneInfo(constants.TIMEZONE))
-            return f"{command}{now.year}"
+            return f"{command}{now.strftime('%Y')}"
         case _:
             return command
 
