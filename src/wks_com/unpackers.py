@@ -2,6 +2,7 @@
 This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-wks-com
 """
+
 from pydantic import BaseModel, Field, computed_field, field_validator
 
 from wks_com import constants, validators
@@ -365,6 +366,6 @@ def unpack(command: str, seq: str) -> Result:
     if not (unpacker_cls := UNPACKERS.get(command)):
         return seq
 
-    kwargs = {key: val for key, val in zip(unpacker_cls.model_fields, seq.split(" "))}
+    kwargs = dict(zip(unpacker_cls.model_fields, seq.split(" "), strict=False))
     metrics = unpacker_cls(**kwargs)
     return metrics.model_dump()

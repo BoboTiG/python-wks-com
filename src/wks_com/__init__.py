@@ -8,6 +8,7 @@ You can always get the latest version of this module at:
     https://github.com/BoboTiG/python-wks-com
 If that URL should fail, try contacting the author.
 """
+
 from wks_com.inverter import Inverter
 
 __version__ = "1.0.1"

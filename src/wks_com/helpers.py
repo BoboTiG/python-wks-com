@@ -2,21 +2,26 @@
 This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-wks-com
 """
+
+from __future__ import annotations
+
 import logging
 from datetime import datetime
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING
 from zoneinfo import ZoneInfo
 
 from serial import SerialException
 
 from wks_com import constants
-from wks_com.types import Result
 
 if TYPE_CHECKING:  # pragma: nocover
+    from collections.abc import Callable
+
     from wks_com.inverter import Inverter
+    from wks_com.types import Result
 
 
-log = logging.getLogger(__file__)
+log = logging.getLogger(__name__)
 
 
 def compute_crc(value: str) -> str:
@@ -100,14 +105,14 @@ def extract_response(seq: bytes) -> str:
     return seq.decode(encoding="latin1")
 
 
-def retry(func: Callable[["Inverter", str], Result]) -> Callable[["Inverter", str], Result]:
-    def inner(cls: "Inverter", command: str) -> Result:
+def retry(func: Callable[[Inverter, str], Result]) -> Callable[[Inverter, str], Result]:
+    def inner(cls: Inverter, command: str) -> Result:
         for count in range(2):
             try:
                 return func(cls, command)
-            except SerialException:
+            except SerialException:  # noqa: PERF203
                 msg = "again" if count == 0 else "one last time"
-                log.exception(f"Serial error, will try {msg}")
+                log.exception("Serial error, will try %s", msg)
 
         # The last try
         return func(cls, command)

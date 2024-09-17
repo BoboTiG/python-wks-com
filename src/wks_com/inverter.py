@@ -2,6 +2,7 @@
 This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-wks-com
 """
+
 import logging
 from dataclasses import dataclass, field
 
@@ -44,20 +45,21 @@ class Inverter:
 
     def decode(self, command: str, response: bytes) -> Result:
         res = unpack(command, extract_response(response))
-        log.debug(f"{self._conn.port} < DECODED {res!r}")
+        log.debug("%s < DECODED %r", self._conn.port, res)
 
         if command == CMD_MODEL:
-            self.model = res  # type: ignore[assignment]
+            self.model = str(res)
         elif command == CMD_SERIAL_NO:
-            self.serial_no = res  # type: ignore[assignment]
+            self.serial_no = str(res)
         elif command == CMD_METRICS:
-            self.serial_no = res["serial_number"]  # type: ignore[assignment,index]
+            assert isinstance(res, dict)  # For Mypy
+            self.serial_no = str(res["serial_number"])
 
         return res
 
     def read(self) -> bytes:
         res = self._conn.read_until(expected=b"\r")
-        log.debug(f"{self._conn.port} < RAW {res!r}")
+        log.debug("%s < RAW %r", self._conn.port, res)
         self.reads += len(res)
         return res
 
@@ -68,8 +70,8 @@ class Inverter:
 
     def write(self, command: str) -> bool:
         full_command = f"{expand_command(command)}{compute_crc(command)}\r"
-        log.debug(f"{self._conn.port} > SEND {full_command!r}")
+        log.debug("%s > SEND %r", self._conn.port, full_command)
         res = self._conn.write(serial.to_bytes(ord(c) for c in full_command))
-        log.debug(f"{self._conn.port} > WRITTEN {res!r} chars ({'OK' if res == len(full_command) else 'ERROR'})")
+        log.debug("%s > WRITTEN %r chars (%s)", self._conn.port, res, "OK" if res == len(full_command) else "ERROR")
         self.writes += res
         return res > 0

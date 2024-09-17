@@ -2,14 +2,18 @@
 This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-wks-com
 """
+
+from pydantic import BaseModel
+
 from wks_com import constants, unpackers
+from wks_com.types import Result
 from wks_com.unpackers import unpack
 
 
-def check_types(unpacker: object, res: dict) -> None:
+def check_types(unpacker: BaseModel, result: Result) -> None:
     for field, metadata in unpacker.model_fields.items():
         if not metadata.exclude:
-            assert isinstance(res[field], metadata.annotation)
+            assert isinstance(result[field], metadata.annotation)
 
 
 def test_Q1() -> None:

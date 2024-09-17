@@ -2,6 +2,7 @@
 This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-wks-com
 """
+
 import logging
 from unittest.mock import patch
 
@@ -12,7 +13,7 @@ from wks_com import constants
 from wks_com.inverter import Inverter
 
 
-def read_until(expected: str = "") -> bytes:
+def read_until(expected: str = "") -> bytes:  # noqa: ARG001
     return b"(fooXX\r"
 
 
@@ -21,7 +22,7 @@ def write(seq: bytes) -> int:
     return len(seq)
 
 
-@pytest.fixture()
+@pytest.fixture
 def inverter(port: str) -> Inverter:
     return Inverter(port)
 
@@ -37,7 +38,7 @@ def test_exclusive_access(inverter: Inverter) -> None:
 
 
 @pytest.mark.parametrize(
-    "command, response, attr, expected",
+    ("command", "response", "attr", "expected"),
     [
         (constants.CMD_MODEL, b"(MKS2-5600xx\r", "model", "MKS2-5600"),
         (constants.CMD_SERIAL_NO, b"(96332309100458xx\r", "serial_no", "96332309100458"),
@@ -79,7 +80,7 @@ def test_send(inverter: Inverter) -> None:
     assert str(inverter) == f"Inverter(port={inverter.port!r}, model='', reads=7, serial_no='', writes=6)"
 
 
-def test_send_retry(inverter: Inverter, caplog) -> None:
+def test_send_retry(inverter: Inverter, caplog: pytest.LogCaptureFixture) -> None:
     """
     When a script keeps the connection open (like when reading data on a regular basis),
     and then one does a second call on the same port from another script (or via the `inverter-*` executable),
@@ -96,14 +97,15 @@ def test_send_retry(inverter: Inverter, caplog) -> None:
         serial.serialutil.SerialException: device reports readiness to read but returned no data (device disconnected or multiple access on port?)
 
     This test ensures the retry mechanism will mitigate the behavior.
-    """  # noqa[E501]
+    """  # noqa: E501
     count = 1
 
     def read_until_bad(expected: str = "") -> bytes:
         nonlocal count
         count += 1
         if count <= 3:
-            raise SerialException("device reports readiness to read but returned no data")
+            msg = "device reports readiness to read but returned no data"
+            raise SerialException(msg)
         return read_until(expected=expected)
 
     with (

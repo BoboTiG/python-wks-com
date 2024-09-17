@@ -57,13 +57,10 @@ wks-read = "wks_com.__main__:read"
 
 [project.optional-dependencies]
 dev = [
-  "black",
-  "build",
-  "flake8-pyproject",
-  "mypy",
-  "isort",
-  "pytest",
-  "pytest-cov",
+  "mypy==1.11.2",
+  "pytest==8.3.3",
+  "pytest-cov==5.0.0",
+  "ruff==0.6.5",
 ]
 
 [tool.hatch.version]
@@ -82,17 +79,6 @@ only-include = [
 packages = [
   "src/wks_com",
 ]
-
-[tool.black]
-target-version = ["py310"]
-line-length = 120
-safe = true
-
-[tool.flake8]
-max-line-length = 120
-
-[tool.isort]
-profile = "black"
 
 [tool.mypy]
 # Ensure we know what we do
@@ -124,3 +110,35 @@ addopts = """
     -r fE
     -vvv
 """
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+target-version = "py310"
+
+[tool.ruff.lint]
+extend-select = ["ALL"]
+ignore = [
+    "C90",
+    "COM812",
+    "D",  # TODO
+    "DTZ007",
+    "ERA",
+    "FBT",
+    "INP001",
+    "ISC001",
+    "N802",
+    "N805",
+    "PTH",
+    "PL",
+    "S",
+    "SLF",
+    "T201",
+]
+fixable = ["ALL"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"

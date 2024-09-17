@@ -2,6 +2,7 @@
 This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-wks-com
 """
+
 from datetime import datetime
 
 from wks_com import constants
@@ -147,6 +148,8 @@ def time(value: str) -> str:
     """
     >>> time("20231210204150")
     '2023-12-10 20:41:50'
+    >>> time("20240907090302")
+    '2024-09-07 09:03:02'
     """
     return str(datetime.strptime(value, "%Y%m%d%H%M%S"))
 

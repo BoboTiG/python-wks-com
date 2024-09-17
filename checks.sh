@@ -1,5 +1,5 @@
 #!/bin/bash
-python -m isort src
-python -m black src
-python -m flake8 src
-python -m mypy src/wks_com
+set -eu
+python -m ruff format src
+python -m ruff check --fix --unsafe-fixes src
+python -m mypy src
