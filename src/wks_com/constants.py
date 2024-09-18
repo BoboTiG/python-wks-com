@@ -3,6 +3,9 @@ This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-wks-com
 """
 
+# Serial port
+DEFAULT_PORT = "/dev/ttyUSB0"
+
 # Timezone to tweak some commands output
 TIMEZONE = "Europe/Paris"
 

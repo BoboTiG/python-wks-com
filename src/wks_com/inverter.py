@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 
 import serial
 
-from wks_com.constants import CMD_METRICS, CMD_MODEL, CMD_SERIAL_NO
+from wks_com.constants import CMD_METRICS, CMD_MODEL, CMD_SERIAL_NO, DEFAULT_PORT
 from wks_com.helpers import compute_crc, expand_command, extract_response, retry
 from wks_com.types import Result
 from wks_com.unpackers import unpack
@@ -18,16 +18,16 @@ log = logging.getLogger(__name__)
 
 @dataclass
 class Inverter:
-    port: str
-    baudrate: int = field(default=2400, repr=False)
-    bytesize: int = field(default=serial.EIGHTBITS, repr=False)
-    exclusive: bool = field(default=True, repr=False)
-    model: str = ""
-    parity: str = field(default=serial.PARITY_NONE, repr=False)
+    port: str = field(default=DEFAULT_PORT)
+    baudrate: int = field(default=2400, repr=False, kw_only=True)
+    bytesize: int = field(default=serial.EIGHTBITS, repr=False, kw_only=True)
+    exclusive: bool = field(default=True, repr=False, kw_only=True)
+    model: str = field(default="", kw_only=True)
+    parity: str = field(default=serial.PARITY_NONE, repr=False, kw_only=True)
     reads: int = field(default=0, init=False)
-    serial_no: str = ""
-    stopbits: int = field(default=serial.STOPBITS_ONE, repr=False)
-    timeout: float | None = field(default=None, repr=False)
+    serial_no: str = field(default="", kw_only=True)
+    stopbits: int = field(default=serial.STOPBITS_ONE, repr=False, kw_only=True)
+    timeout: float | None = field(default=None, repr=False, kw_only=True)
     writes: int = field(default=0, init=False)
 
     _conn: serial.Serial = field(init=False, repr=False)
