@@ -122,21 +122,16 @@ target-version = "py310"
 [tool.ruff.lint]
 extend-select = ["ALL"]
 ignore = [
-    "C90",
-    "COM812",
+    "COM812",  # conflict
     "D",  # TODO
-    "DTZ007",
-    "ERA",
-    "FBT",
-    "INP001",
-    "ISC001",
-    "N802",
-    "N805",
-    "PTH",
-    "PL",
-    "S",
-    "SLF",
-    "T201",
+    "DTZ007",  # timezone issue but we do not care
+    "ISC001",  # conflict
+    "N802",  # test function names using command names
+    "N805",  # cls argument name for pydantic models
+    "PLR2004",
+    "S",  # assert in tests
+    "SLF",  # private class access in tests
+    "T201",  # print()
 ]
 fixable = ["ALL"]
 

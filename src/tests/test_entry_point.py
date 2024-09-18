@@ -23,7 +23,11 @@ FORMATTED_RETURN_VALUE = json.dumps(MOCKED_RETURN_VALUE, indent=4, sort_keys=Tru
     ],
 )
 def test_read(
-    commands: list[str], debug: bool, port: str, capsys: pytest.CaptureFixture, caplog: pytest.LogCaptureFixture
+    commands: list[str],
+    debug: bool,  # noqa: FBT001
+    port: str,
+    capsys: pytest.CaptureFixture,
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
     full_cmd = ["wks-read", "--port", port, *commands]
     if debug:

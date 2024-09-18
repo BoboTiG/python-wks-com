@@ -131,7 +131,7 @@ def test_commands(port: str, *commands: str, debug: bool = False) -> None:
     inverter = Inverter(port)
     for command in commands:
         print(command)
-        command = getattr(constants, f"CMD_{command.upper().replace('-', '_')}", command)
-        res = inverter.send(command)
+        cmd = getattr(constants, f"CMD_{command.upper().replace('-', '_')}", command)
+        res = inverter.send(cmd)
         print(json.dumps(res, indent=4, sort_keys=True))
         print()
