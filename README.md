@@ -8,9 +8,32 @@ Python module to communicate with WKS EKO Circle inverters.
 $ python -m pip install 'git+https://github.com/BoboTiG/python-wks-com.git@v1.0.1'
 ```
 
-## Utility
+## Module
 
-When installing the module, the `wks-read` program is made available.
+You can use the module directly from your code:
+
+```python
+from wks_com import constants
+from wks_com.inverter import Inverter
+
+
+# Init the inverter (default port is /dev/ttyUSB0, several optional keyword-arguments are available)
+# Example: inverter = Inverter("/dev/ttyAMA0", timeout=5.0)
+inverter = Inverter()
+
+# Send a command to the inverter
+response = inverter.send("QID")
+
+# The same command via an alias
+response = inverter.send("serial-no")
+
+# The same command using a constant
+response = inverter.send(constants.CMD_SERIAL_NO)
+```
+
+## Program
+
+The module comes with the `wks-read` program.
 You can use it to send commands to inverters, and see what data you can get from.
 
 The usage is as follow:
@@ -23,14 +46,9 @@ As an example, here is how to retrieve the inverter serial number:
 
 ```bash
 $ wks-read QID
+"96332309100452"
 
-# The same command with an alias:
-$ wks-read serial-no
-```
-
-The output will be something like that:
-
-```log
+# The same command via an alias
 $ wks-read serial-no
 "96332309100452"
 ```
@@ -53,7 +71,7 @@ $ wks-read --port /dev/ttyAMA0 serial-no
 "96332309100452"
 ```
 
-### Available Commands
+## Commands and Aliases
 
 You can send any commands as defined in the official documentation, and even unknown commands.
 
