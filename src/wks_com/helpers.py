@@ -123,11 +123,9 @@ def retry(func: Callable[[Inverter, str], Result]) -> Callable[[Inverter, str], 
 def test_commands(port: str, *commands: str, debug: bool = False) -> None:
     import json
 
-    from wks_com import Inverter, constants
+    from wks_com.inverter import Inverter
 
-    if debug:  # pragma: nocover
-        import logging
-
+    if debug:
         logging.basicConfig(level=logging.DEBUG)
 
     inverter = Inverter(port)
