@@ -1,6 +1,5 @@
 """
-An ultra fast cross-platform multiple screenshots module in pure python
-using ctypes.
+Python module to communicate with WKS EKO Circle inverters.
 
 This module is maintained by Mickaël Schoentgen <contact@tiger-222.fr>.
 
