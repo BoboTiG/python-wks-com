@@ -83,7 +83,7 @@ def test_send(inverter: Inverter) -> None:
 def test_send_retry(inverter: Inverter, caplog: pytest.LogCaptureFixture) -> None:
     """
     When a script keeps the connection open (like when reading data on a regular basis),
-    and then one does a second call on the same port from another script (or via the `inverter-*` executable),
+    and then one does a second call on the same port from another script (or via the `wks-read` executable),
     then such an error would likely happen:
 
         File "inverter.py", line 43, in read
