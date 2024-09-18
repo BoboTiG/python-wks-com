@@ -11,7 +11,7 @@ If that URL should fail, try contacting the author.
 from wks_com.inverter import Inverter
 
 __version__ = "1.0.2-dev"
-__author__ = "Mickaël 'Tiger-222' Schoentgen"
+__author__ = "Mickaël Schoentgen"
 __date__ = "2023-2024"
 __copyright__ = f"""
 Copyright (c) {__date__}, {__author__}
