@@ -67,7 +67,7 @@ def test_read(inverter: Inverter) -> None:
     assert inverter.writes == 0
 
 
-def test_send(inverter: Inverter) -> None:
+def test_send(inverter: Inverter, caplog: pytest.LogCaptureFixture) -> None:
     with (
         patch.object(inverter._conn, "read_until", new=read_until),
         patch.object(inverter._conn, "write", new=write),
@@ -78,6 +78,14 @@ def test_send(inverter: Inverter) -> None:
     assert inverter.writes == 6
     assert repr(inverter) == f"Inverter(port={inverter.port!r}, model='', reads=7, serial_no='', writes=6)"
     assert str(inverter) == f"Inverter(port={inverter.port!r}, model='', reads=7, serial_no='', writes=6)"
+
+    logs = [record.getMessage() for record in caplog.records]
+    assert logs == [
+        f"{inverter.port} > SEND 'cmd\\x93o\\r'",
+        f"{inverter.port} > WRITTEN 6 chars (OK)",
+        f"{inverter.port} < RAW b'(fooXX\\r'",
+        f"{inverter.port} < DECODED 'foo'",
+    ]
 
 
 def test_send_retry(inverter: Inverter, caplog: pytest.LogCaptureFixture) -> None:
@@ -117,12 +125,15 @@ def test_send_retry(inverter: Inverter, caplog: pytest.LogCaptureFixture) -> Non
     assert inverter.reads == 7
     assert inverter.writes == 18
 
-    errors_log = [record for record in caplog.records if record.levelno == logging.ERROR]
-    assert len(errors_log) == 2
+    errors_log = [record.getMessage() for record in caplog.records if record.levelno == logging.ERROR]
+    assert errors_log == ["Serial error, will try again", "Serial error, will try one last time"]
 
 
-def test_write(inverter: Inverter) -> None:
+def test_write(inverter: Inverter, caplog: pytest.LogCaptureFixture) -> None:
     with patch.object(inverter._conn, "write", new=write):
         assert inverter.write("cmd")
 
     assert inverter.writes == 6
+
+    logs = [record.getMessage() for record in caplog.records]
+    assert logs == [f"{inverter.port} > SEND 'cmd\\x93o\\r'", f"{inverter.port} > WRITTEN 6 chars (OK)"]
