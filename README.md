@@ -36,7 +36,7 @@ response = inverter.send(constants.CMD_SERIAL_NO)
 The module comes with the `wks-read` program.
 You can use it to send commands to inverters, and see what data you can get from.
 
-The usage is as follow:
+The usage is as follows:
 
 ```bash
 $ wks-read [--port SERIAL_PORT] [--debug] COMMAND_OR_ALIAS [COMMAND_OR_ALIAS...]
@@ -96,7 +96,7 @@ When the inverter does not understand a command, it will respond with `NAK`.
 
 ## Development
 
-Setup a virtual environment:
+Set up a virtual environment:
 
 ```bash
 $ python -m venv venv
