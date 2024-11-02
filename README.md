@@ -1,11 +1,17 @@
 # Python Inverter COM
 
+[![PyPI Version](https://img.shields.io/pypi/v/wks-com.svg)](https://pypi.python.org/pypi/wks-com)
+[![PyPI Status](https://img.shields.io/pypi/status/wks-com.svg)](https://pypi.python.org/pypi/wks-com)
+[![PyPI Python Versions](https://img.shields.io/pypi/pyversions/wks-com.svg)](https://pypi.python.org/pypi/wks-com)
+[![Tests](https://github.com/BoboTiG/python-wks-com/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/BoboTiG/python-wks-com/actions/workflows/tests.yml)
+[![Github License](https://img.shields.io/github/license/BoboTiG/python-wks-com.svg)](https://github.com/BoboTiG/python-wks-com/blob/main/LICENSE)
+
 Python module to communicate with WKS EKO Circle inverters.
 
 ## Installation
 
 ```bash
-$ python -m pip install 'git+https://github.com/BoboTiG/python-wks-com.git@v1.2.0'
+$ python -m pip install -U wks-com
 ```
 
 ## Module

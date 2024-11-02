@@ -3,19 +3,14 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic Versioning].
 
-## [Current] - 2024-xx-xx
+## [1.2.1] - 2024-11-02
 
 ### Added
--
+- CI: PyPI release workflow
+- CI: auto-merge dependency pull-requests on successful tests
 
 ### Changed
--
-
-### Deleted
--
-
-### Upgraded
--
+- docs: misspellings on the README
 
 ## [1.2.0] - 2024-09-18
 
@@ -47,7 +42,7 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 - initial commit on `2023-12-08`
 
 
-[Current]: https://github.com/BoboTiG/python-wks-com/compare/v1.2.0...HEAD
+[1.2.1]: https://github.com/BoboTiG/python-wks-com/tree/v1.2.1
 [1.2.0]: https://github.com/BoboTiG/python-wks-com/tree/v1.2.0
 [1.0.1]: https://github.com/BoboTiG/python-wks-com/tree/v1.0.1
 [1.0.0]: https://github.com/BoboTiG/python-wks-com/tree/v1.0.0
