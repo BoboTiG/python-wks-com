@@ -58,12 +58,16 @@ Tracker = "https://github.com/BoboTiG/python-wks-com/issues"
 wks-read = "wks_com.__main__:read"
 
 [project.optional-dependencies]
-dev = [
+test = [
   "freezegun==1.5.1",
   "mypy==1.13.0",
   "pytest==8.3.3",
   "pytest-cov==6.0.0",
-  "ruff==0.7.1",
+  "ruff==0.7.3",
+]
+dev = [
+  "build==1.2.2.post1",
+  "twine==5.1.1",
 ]
 
 [tool.hatch.version]
