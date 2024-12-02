@@ -60,7 +60,7 @@ wks-read = "wks_com.__main__:read"
 test = [
   "freezegun==1.5.1",
   "mypy==1.13.0",
-  "pytest==8.3.3",
+  "pytest==8.3.4",
   "pytest-cov==6.0.0",
   "ruff==0.8.1",
 ]
