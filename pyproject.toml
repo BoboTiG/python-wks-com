@@ -59,7 +59,7 @@ wks-read = "wks_com.__main__:read"
 [project.optional-dependencies]
 test = [
   "freezegun==1.5.1",
-  "mypy==1.13.0",
+  "mypy==1.14.0",
   "pytest==8.3.4",
   "pytest-cov==6.0.0",
   "ruff==0.8.4",
