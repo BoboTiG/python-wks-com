@@ -12,7 +12,7 @@ from wks_com.inverter import Inverter
 
 __version__ = "1.2.2-dev"
 __author__ = "Mickaël Schoentgen"
-__date__ = "2023-2024"
+__date__ = "2023-2025"
 __copyright__ = f"""
 Copyright (c) {__date__}, {__author__}
 
