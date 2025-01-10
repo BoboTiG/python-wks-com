@@ -142,9 +142,9 @@ ignore = [
   "D213",    # conflict
   "D301",    # use `r"""` if any backslashes in a docstring
   "D4",      # first line should blablabla
-  "DTZ007",  # timezone issue but we do not care
+  "DTZ007",  # timezone issue, but we do not care
   "ISC001",  # conflict
-  "N805",    # cls argument name for pydantic models
+  "N805",    # `cls` argument name for pydantic models
   "T201",    # print()
 ]
 
