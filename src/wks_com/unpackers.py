@@ -3,10 +3,16 @@ This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-wks-com
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from pydantic import BaseModel, Field, computed_field, field_validator
 
 from wks_com import constants, validators
-from wks_com.types import Result
+
+if TYPE_CHECKING:
+    from wks_com._types import Result
 
 
 class QED(BaseModel):

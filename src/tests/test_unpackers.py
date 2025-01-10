@@ -6,7 +6,7 @@ Source: https://github.com/BoboTiG/python-wks-com
 from pydantic import BaseModel
 
 from wks_com import constants, unpackers
-from wks_com.types import Result
+from wks_com._types import Result
 from wks_com.unpackers import unpack
 
 
@@ -18,8 +18,7 @@ def check_types(unpacker: BaseModel, result: Result) -> None:
 
 def test_Q1() -> None:
     seq = (
-        "00001 00001 00 00 00 024 025 019 024 02 00 000 0033 0000"
-        " 0000 00.00 11 0 060 030 080 030 58.40 000 120 0 0000"
+        "00001 00001 00 00 00 024 025 019 024 02 00 000 0033 0000 0000 00.00 11 0 060 030 080 030 58.40 000 120 0 0000"
     )
     res = unpack(constants.CMD_Q1, seq)
 
