@@ -3,15 +3,20 @@ This is part of the inverter COM Python's module.
 Source: https://github.com/BoboTiG/python-wks-com
 """
 
+from __future__ import annotations
+
 import logging
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
 
 import serial
 
 from wks_com.constants import CMD_METRICS, CMD_MODEL, CMD_SERIAL_NO, DEFAULT_PORT
 from wks_com.helpers import compute_crc, expand_command, extract_response, retry
-from wks_com.types import Result
 from wks_com.unpackers import unpack
+
+if TYPE_CHECKING:
+    from wks_com._types import Result
 
 log = logging.getLogger(__name__)
 
@@ -52,7 +57,7 @@ class Inverter:
         elif command == CMD_SERIAL_NO:
             self.serial_no = str(res)
         elif command == CMD_METRICS:
-            assert isinstance(res, dict)  # For Mypy
+            assert isinstance(res, dict)  # For Mypy  # noqa: S101
             self.serial_no = str(res["serial_number"])
 
         return res

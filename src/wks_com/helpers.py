@@ -17,8 +17,8 @@ from wks_com import constants
 if TYPE_CHECKING:  # pragma: nocover
     from collections.abc import Callable
 
+    from wks_com._types import Result
     from wks_com.inverter import Inverter
-    from wks_com.types import Result
 
 
 log = logging.getLogger(__name__)
