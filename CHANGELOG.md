@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 ## [Current] - 202x-xx-xx
 
 ### Added
-- 
+- Python 3.14 support
 
 ### Changed
 - 
