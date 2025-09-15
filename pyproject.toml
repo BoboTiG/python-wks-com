@@ -61,7 +61,7 @@ test = [
   "freezegun==1.5.5",
   "mypy==1.18.1",
   "pytest==8.4.2",
-  "pytest-cov==6.3.0",
+  "pytest-cov==7.0.0",
   "ruff==0.11.13",
 ]
 dev = [
