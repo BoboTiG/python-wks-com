@@ -120,10 +120,10 @@ def retry(func: Callable[[Inverter, str], Result]) -> Callable[[Inverter, str], 
     return inner
 
 
-def test_commands(port: str, *commands: str, debug: bool = False) -> None:
-    import json
+def test_commands(port: str, *commands: str, debug: bool = False) -> None:  # noqa: PT028
+    import json  # noqa: PLC0415
 
-    from wks_com.inverter import Inverter
+    from wks_com.inverter import Inverter  # noqa: PLC0415
 
     if debug:
         logging.basicConfig(level=logging.DEBUG)

@@ -16,7 +16,7 @@ def read() -> int:
     options = parser.parse_args()
 
     if options.command:
-        from wks_com.helpers import test_commands
+        from wks_com.helpers import test_commands  # noqa: PLC0415
 
         test_commands(options.port, *options.command, debug=options.debug)
 
