@@ -60,14 +60,14 @@ wks-read = "wks_com.__main__:read"
 [project.optional-dependencies]
 test = [
   "freezegun==1.5.5",
-  "mypy==1.17.1",
-  "pytest==8.4.1",
-  "pytest-cov==6.2.1",
-  "ruff==0.11.13",
+  "mypy==1.19.1",
+  "pytest==9.0.2",
+  "pytest-cov==7.0.0",
+  "ruff==0.14.10",
 ]
 dev = [
   "build==1.3.0",
-  "twine==6.1.0",
+  "twine==6.2.0",
 ]
 
 [tool.hatch.version]
