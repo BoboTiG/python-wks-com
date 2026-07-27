@@ -135,6 +135,7 @@ extend-select = ["ALL"]
 fixable = ["ALL"]
 ignore = [
   "COM812",  # conflict
+  "CPY001",  # missing copyright notice at top of file
   "D1",      # TODO
   "D203",    # conflict
   "D205",    # 1 blank line required between summary line and description
